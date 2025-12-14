@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./home.css";
 import { ProductCard } from "../components/productCard";
 import { ProductForm } from "../components/productForm";
 import type { Product } from "../types/Product";
+import * as Service from "../services/api";
 
 export function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    Service.getProducts().then(setProducts).catch(console.error);
+  }, []);
 
   function handleAdd(product: Product) {
     setProducts((prev) => [...prev, product]);

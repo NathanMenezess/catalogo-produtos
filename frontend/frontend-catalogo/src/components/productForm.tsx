@@ -1,6 +1,7 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import type { Product } from "../types/Product";
 import "./productForm.css";
+import * as Service from "../services/api";
 
 interface Props {
   onAdd: (product: Product) => void;
@@ -39,23 +40,27 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
     return () => URL.revokeObjectURL(objectUrl);
   }, [image]);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    if (!preview) {
+    if (!image) {
       alert("Selecione uma imagem");
       return;
     }
 
-    const product: Product = {
-      id: editingProduct ? editingProduct.id : Date.now(),
-      title,
-      subtitle,
-      price: Number(price),
-      imageUrl: preview,
-    };
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("subtitle", subtitle);
+    formData.append("price", price);
+    formData.append("image", image);
 
-    editingProduct ? onUpdate(product) : onAdd(product);
+    try {
+      const product = await Service.createProduct(formData);
+      onAdd(product);
+    } catch (error) {
+      alert("Erro ao salvar produto");
+      console.error(error);
+    }
 
     setTitle("");
     setSubtitle("");
