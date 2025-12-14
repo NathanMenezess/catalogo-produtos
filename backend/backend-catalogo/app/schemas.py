@@ -8,8 +8,11 @@ class ProductBase(BaseModel):
 class ProductCreate(ProductBase):
     pass
 
-class ProductResponse(ProductBase):
+class ProductResponse(BaseModel):
     id: int
+    title: str
+    subtitle: str
+    price: float
     image_url: str
 
     class Config:

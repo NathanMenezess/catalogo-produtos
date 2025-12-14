@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 import shutil
 import os
 
+from fastapi.staticfiles import StaticFiles
 from .database import SessionLocal, engine
 from . import models, schemas
 
@@ -13,6 +14,9 @@ from . import models, schemas
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
 
 # =========================
 # CORS

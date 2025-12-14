@@ -20,7 +20,7 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
       setTitle(editingProduct.title);
       setSubtitle(editingProduct.subtitle);
       setPrice(editingProduct.price.toString());
-      setPreview(editingProduct.imageUrl);
+      setPreview(editingProduct.image_url);
     }
   }, [editingProduct]);
 

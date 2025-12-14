@@ -17,10 +17,13 @@ export async function createProduct(formData: FormData): Promise<Product> {
 
 export async function getProducts(): Promise<Product[]> {
   const response = await fetch(`${API_URL}/products`);
+  const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error("Erro ao buscar produtos");
-  }
-
-  return response.json();
+  return data.map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    subtitle: item.subtitle,
+    price: item.price,
+    image_url: item.image_url, // 👈 conversão aqui
+  }));
 }

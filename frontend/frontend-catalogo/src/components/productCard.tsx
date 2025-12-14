@@ -10,7 +10,10 @@ interface Props {
 export function ProductCard({ product, onEdit, onDelete }: Props) {
   return (
     <div className="card">
-      <img src={product.imageUrl} alt={product.title} />
+      <img
+        src={`https://catalogo-produtos-ocyr.onrender.com/${product.image_url}`}
+        alt={product.title}
+      />
 
       <div className="card-content">
         <h3>{product.title}</h3>

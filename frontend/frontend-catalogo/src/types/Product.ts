@@ -3,5 +3,5 @@ export interface Product {
   title: string;
   subtitle: string;
   price: number;
-  imageUrl: string;
+  image_url: string;
 }
