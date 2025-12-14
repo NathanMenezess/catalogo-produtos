@@ -1,6 +1,6 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { Product } from "../types/Product";
-import "./ProductForm.css";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import type { Product } from "../types/Product";
+import "./productForm.css";
 
 interface Props {
   onAdd: (product: Product) => void;

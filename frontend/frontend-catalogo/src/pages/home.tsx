@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Home.css";
+import "./home.css";
 import { ProductCard } from "../components/productCard";
 import { ProductForm } from "../components/productForm";
 import type { Product } from "../types/Product";

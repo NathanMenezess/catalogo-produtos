@@ -1,5 +1,5 @@
-import { Product } from "../types/Product";
-import "./ProductCard.css";
+import type { Product } from "../types/Product";
+import "./productCard.css";
 
 interface Props {
   product: Product;
