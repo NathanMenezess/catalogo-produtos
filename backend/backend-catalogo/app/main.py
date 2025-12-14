@@ -130,25 +130,25 @@ def update_product(
     image: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
 ):
-    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    # 1️⃣ Busca o produto
+    product = db.query(models.Product).filter(
+        models.Product.id == product_id
+    ).first()
 
     if not product:
         raise HTTPException(status_code=404, detail="Produto não encontrado")
 
-    # Atualiza dados básicos
+    # 2️⃣ Atualiza campos básicos
     product.title = title
     product.subtitle = subtitle
     product.price = price
 
-    # Atualiza imagem SOMENTE se vier nova
+    # 3️⃣ AQUI ENTRA O TRECHO QUE VOCÊ PERGUNTOU 👇
     if image:
-        image_path = f"{UPLOAD_DIR}/{image.filename}"
+        image_url = upload_image(image)
+        product.image_url = image_url
 
-        with open(image_path, "wb") as buffer:
-            shutil.copyfileobj(image.file, buffer)
-
-        product.image_url = image_path
-
+    # 4️⃣ Salva no banco
     db.commit()
     db.refresh(product)
 
