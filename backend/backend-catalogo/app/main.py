@@ -9,10 +9,11 @@ from .database import SessionLocal, engine
 from . import models, schemas
 from fastapi import HTTPException
 
-
 from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
 from typing import Optional
+from .services.cloudinary_service import upload_image
+
 
 
 # =========================
@@ -42,8 +43,6 @@ app.add_middleware(
 # =========================
 # Upload
 # =========================
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # =========================
 # DB
@@ -73,16 +72,13 @@ def create_product(
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
 ):
-    image_path = f"{UPLOAD_DIR}/{image.filename}"
-
-    with open(image_path, "wb") as buffer:
-        shutil.copyfileobj(image.file, buffer)
+    image_url = upload_image(image)
 
     product = models.Product(
         title=title,
         subtitle=subtitle,
         price=price,
-        image_url=image_path,
+        image_url=image_url,
     )
 
     db.add(product)
@@ -90,6 +86,7 @@ def create_product(
     db.refresh(product)
 
     return product
+
 
 # =========================
 # Listar produtos
