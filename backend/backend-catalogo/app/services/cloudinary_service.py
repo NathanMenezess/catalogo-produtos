@@ -11,6 +11,13 @@ cloudinary.config(
 def upload_image(file):
     result = cloudinary.uploader.upload(
         file.file,
-        folder="catalogo-produtos"
+        folder="catalogo-produtos"  # pasta no Cloudinary
     )
-    return result["secure_url"]
+    # Retornar URL e public_id
+    return result["secure_url"], result["public_id"]
+
+def delete_image(public_id: str):
+    try:
+        cloudinary.uploader.destroy(public_id)
+    except Exception as e:
+        print("Erro ao deletar imagem:", e)

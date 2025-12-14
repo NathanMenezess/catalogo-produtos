@@ -9,3 +9,4 @@ class Product(Base):
     subtitle = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     image_url = Column(String, nullable=False)
+    image_public_id = Column(String, nullable=False)  

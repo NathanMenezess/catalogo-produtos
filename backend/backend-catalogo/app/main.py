@@ -13,6 +13,7 @@ from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
 from typing import Optional
 from .services.cloudinary_service import upload_image
+from services.cloudinary_service import delete_image
 
 
 
@@ -72,13 +73,14 @@ def create_product(
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
 ):
-    image_url = upload_image(image)
+    image_url, image_public_id = upload_image(image)
 
     product = models.Product(
         title=title,
         subtitle=subtitle,
         price=price,
         image_url=image_url,
+        image_public_id=image_public_id,  # <-- salvo aqui
     )
 
     db.add(product)
@@ -86,7 +88,6 @@ def create_product(
     db.refresh(product)
 
     return product
-
 
 # =========================
 # Listar produtos
@@ -109,14 +110,15 @@ def delete_product(
     if not product:
         raise HTTPException(status_code=404, detail="Produto não encontrado")
 
-    # opcional: remover arquivo da imagem
-    if product.image_url and os.path.exists(product.image_url):
-        os.remove(product.image_url)
+    # 1️⃣ Deletar imagem do Cloudinary
+    if product.image_public_id:
+        delete_image(product.image_public_id)
 
+    # 2️⃣ Deletar produto do banco
     db.delete(product)
     db.commit()
 
-    return {"message": "Produto removido"}
+    return {"message": "Produto e imagem removidos"}
 
 # =========================
 # atualizar produto
