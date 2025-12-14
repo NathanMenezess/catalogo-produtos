@@ -33,8 +33,7 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "https://catalogo-front.vercel.app",
+        "*"
     ],
     allow_credentials=True,
     allow_methods=["*"],
