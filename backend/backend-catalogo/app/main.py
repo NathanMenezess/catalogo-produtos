@@ -5,7 +5,6 @@ import shutil
 import os
 
 from fastapi.staticfiles import StaticFiles
-from .database import SessionLocal, engine
 from . import models, schemas
 from fastapi import HTTPException
 
@@ -14,6 +13,8 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from .services.cloudinary_service import upload_image
 from .services.cloudinary_service import delete_image
+from .database import SessionLocal, engine, Base
+
 
 
 
