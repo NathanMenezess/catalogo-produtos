@@ -24,9 +24,7 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
           <button className="edit" onClick={onEdit}>
             Editar
           </button>
-          <button className="delete" onClick={onDelete}>
-            Excluir
-          </button>
+          <button onClick={onDelete}>Excluir</button>
         </div>
       </div>
     </div>

@@ -5,10 +5,11 @@ import * as Service from "../services/api";
 
 interface Props {
   onAdd: (product: Product) => void;
+  onUpdate: (product: Product) => void;
   editingProduct: Product | null;
 }
 
-export function ProductForm({ onAdd, editingProduct }: Props) {
+export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [price, setPrice] = useState("");
@@ -21,33 +22,46 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
       setSubtitle(editingProduct.subtitle);
       setPrice(editingProduct.price.toString());
       setPreview(editingProduct.image_url);
+      setImage(null); // imagem opcional no editar
     }
   }, [editingProduct]);
 
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
-      setPreview(URL.createObjectURL(e.target.files[0]));
+      const file = e.target.files[0];
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
     }
   }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    if (!image) {
-      alert("Selecione uma imagem");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("subtitle", subtitle);
     formData.append("price", price);
-    formData.append("image", image);
+
+    if (image) {
+      formData.append("image", image);
+    }
 
     try {
-      const product = await Service.createProduct(formData);
-      onAdd(product);
+      if (editingProduct) {
+        const updated = await Service.updateProduct(
+          editingProduct.id,
+          formData
+        );
+        onUpdate(updated);
+      } else {
+        if (!image) {
+          alert("Selecione uma imagem");
+          return;
+        }
+
+        const product = await Service.createProduct(formData);
+        onAdd(product);
+      }
 
       // reset
       setTitle("");
@@ -63,7 +77,7 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <h3>Novo Produto</h3>
+      <h3>{editingProduct ? "Editar Produto" : "Novo Produto"}</h3>
 
       <input
         type="text"
@@ -89,12 +103,7 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
         required
       />
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        required
-      />
+      <input type="file" accept="image/*" onChange={handleImageChange} />
 
       {preview && (
         <div className="preview">
@@ -102,7 +111,9 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
         </div>
       )}
 
-      <button type="submit">Adicionar</button>
+      <button type="submit">
+        {editingProduct ? "Atualizar" : "Adicionar"}
+      </button>
     </form>
   );
 }

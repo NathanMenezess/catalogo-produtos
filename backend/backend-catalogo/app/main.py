@@ -7,6 +7,13 @@ import os
 from fastapi.staticfiles import StaticFiles
 from .database import SessionLocal, engine
 from . import models, schemas
+from fastapi import HTTPException
+
+
+from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
+from sqlalchemy.orm import Session
+from typing import Optional
+
 
 # =========================
 # Cria as tabelas
@@ -90,3 +97,63 @@ def create_product(
 @app.get("/products", response_model=list[schemas.ProductResponse])
 def list_products(db: Session = Depends(get_db)):
     return db.query(models.Product).all()
+
+
+# =========================
+# excluir produto
+# =========================
+@app.delete("/products/{product_id}")
+def delete_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+    # opcional: remover arquivo da imagem
+    if product.image_url and os.path.exists(product.image_url):
+        os.remove(product.image_url)
+
+    db.delete(product)
+    db.commit()
+
+    return {"message": "Produto removido"}
+
+# =========================
+# atualizar produto
+# =========================
+@app.put("/products/{product_id}", response_model=schemas.ProductResponse)
+def update_product(
+    product_id: int,
+    title: str = Form(...),
+    subtitle: str = Form(...),
+    price: float = Form(...),
+    image: Optional[UploadFile] = File(None),
+    db: Session = Depends(get_db),
+):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+    # Atualiza dados básicos
+    product.title = title
+    product.subtitle = subtitle
+    product.price = price
+
+    # Atualiza imagem SOMENTE se vier nova
+    if image:
+        image_path = f"{UPLOAD_DIR}/{image.filename}"
+
+        with open(image_path, "wb") as buffer:
+            shutil.copyfileobj(image.file, buffer)
+
+        product.image_url = image_path
+
+    db.commit()
+    db.refresh(product)
+
+    return product
+# =========================
