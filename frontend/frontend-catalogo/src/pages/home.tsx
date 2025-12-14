@@ -17,11 +17,6 @@ export function Home() {
     setProducts((prev) => [...prev, product]);
   }
 
-  function handleUpdate(updated: Product) {
-    setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
-    setEditingProduct(null);
-  }
-
   function handleDelete(id: number) {
     if (confirm("Tem certeza que deseja excluir este produto?")) {
       setProducts((prev) => prev.filter((p) => p.id !== id));
@@ -30,11 +25,7 @@ export function Home() {
 
   return (
     <div className="container">
-      <ProductForm
-        onAdd={handleAdd}
-        onUpdate={handleUpdate}
-        editingProduct={editingProduct}
-      />
+      <ProductForm onAdd={handleAdd} editingProduct={editingProduct} />
 
       <h2>Produtos</h2>
 

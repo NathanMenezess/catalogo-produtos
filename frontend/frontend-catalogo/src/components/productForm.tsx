@@ -5,11 +5,10 @@ import * as Service from "../services/api";
 
 interface Props {
   onAdd: (product: Product) => void;
-  onUpdate: (product: Product) => void;
   editingProduct: Product | null;
 }
 
-export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
+export function ProductForm({ onAdd, editingProduct }: Props) {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [price, setPrice] = useState("");
