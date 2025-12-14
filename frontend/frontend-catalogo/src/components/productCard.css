@@ -1,0 +1,46 @@
+.card {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card-content h3 {
+    font-weight: 600;
+}
+
+.card-content p {
+    line-height: 1.4;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.actions button {
+    flex: 1;
+    padding: 6px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.actions .edit {
+    background: #ffb300;
+    color: #000;
+}
+
+.actions .delete {
+    background: #e53935;
+    color: #fff;
+}
