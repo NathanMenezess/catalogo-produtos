@@ -8,6 +8,7 @@ import * as Service from "../services/api";
 export function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     Service.getProducts().then(setProducts).catch(console.error);
@@ -32,6 +33,11 @@ export function Home() {
     setEditingProduct(null);
   }
 
+  // Filtre os produtos exibidos
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container">
       <ProductForm
@@ -40,15 +46,25 @@ export function Home() {
         editingProduct={editingProduct}
       />
 
-      <h2>Produtos</h2>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Buscar por título..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
 
+      <h2>Produtos</h2>
       <div className="grid">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
-            onEdit={() => setEditingProduct(product)}
-            onDelete={() => handleDelete(product.id)}
+            onEdit={setEditingProduct}
+            onDelete={handleDelete}
+            productId={product.id} // Corrigido se necessário
           />
         ))}
       </div>
