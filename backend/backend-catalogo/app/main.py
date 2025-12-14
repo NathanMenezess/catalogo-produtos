@@ -13,7 +13,7 @@ from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
 from typing import Optional
 from .services.cloudinary_service import upload_image
-from services.cloudinary_service import delete_image
+from .services.cloudinary_service import delete_image
 
 
 
