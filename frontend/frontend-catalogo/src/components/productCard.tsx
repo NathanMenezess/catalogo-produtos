@@ -10,10 +10,7 @@ interface Props {
 export function ProductCard({ product, onEdit, onDelete }: Props) {
   return (
     <div className="card">
-      <img
-        src={`https://catalogo-produtos-ocyr.onrender.com/${product.image_url}`}
-        alt={product.title}
-      />
+      <img src={`${product.image_url}`} alt={product.title} />
 
       <div className="card-content">
         <h3>{product.title}</h3>
@@ -24,7 +21,9 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
           <button className="edit" onClick={onEdit}>
             Editar
           </button>
-          <button className="delete" onClick={onDelete}>Excluir</button>
+          <button className="delete" onClick={onDelete}>
+            Excluir
+          </button>
         </div>
       </div>
     </div>
