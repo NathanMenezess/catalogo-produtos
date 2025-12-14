@@ -27,17 +27,9 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
+      setPreview(URL.createObjectURL(e.target.files[0]));
     }
   }
-
-  useEffect(() => {
-    if (!image) return;
-
-    const objectUrl = URL.createObjectURL(image);
-    setPreview(objectUrl);
-
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [image]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -56,21 +48,22 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
     try {
       const product = await Service.createProduct(formData);
       onAdd(product);
-    } catch (error) {
-      alert("Erro ao salvar produto");
-      console.error(error);
-    }
 
-    setTitle("");
-    setSubtitle("");
-    setPrice("");
-    setImage(null);
-    setPreview(null);
+      // reset
+      setTitle("");
+      setSubtitle("");
+      setPrice("");
+      setImage(null);
+      setPreview(null);
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao salvar produto");
+    }
   }
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <h3>{editingProduct ? "Editar Produto" : "Novo Produto"}</h3>
+      <h3>Novo Produto</h3>
 
       <input
         type="text"
@@ -96,7 +89,12 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
         required
       />
 
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        required
+      />
 
       {preview && (
         <div className="preview">
@@ -104,9 +102,7 @@ export function ProductForm({ onAdd, editingProduct }: Props) {
         </div>
       )}
 
-      <button type="submit">
-        {editingProduct ? "Atualizar" : "Adicionar"}
-      </button>
+      <button type="submit">Adicionar</button>
     </form>
   );
 }

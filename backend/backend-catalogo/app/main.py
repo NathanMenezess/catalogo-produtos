@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, UploadFile, File
+from fastapi import FastAPI, Depends, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import shutil
@@ -7,13 +7,15 @@ import os
 from .database import SessionLocal, engine
 from . import models, schemas
 
-# Cria as tabelas no banco
+# =========================
+# Cria as tabelas
+# =========================
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
 # =========================
-# CORS (temporário liberado)
+# CORS
 # =========================
 app.add_middleware(
     CORSMiddleware,
@@ -27,13 +29,13 @@ app.add_middleware(
 )
 
 # =========================
-# Config upload
+# Upload
 # =========================
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # =========================
-# Dependência de banco
+# DB
 # =========================
 def get_db():
     db = SessionLocal()
@@ -43,7 +45,7 @@ def get_db():
         db.close()
 
 # =========================
-# Rota raiz (Render health)
+# Health check (Render)
 # =========================
 @app.get("/")
 def root():
@@ -54,9 +56,9 @@ def root():
 # =========================
 @app.post("/products", response_model=schemas.ProductResponse)
 def create_product(
-    title: str,
-    subtitle: str,
-    price: float,
+    title: str = Form(...),
+    subtitle: str = Form(...),
+    price: float = Form(...),
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
 ):
