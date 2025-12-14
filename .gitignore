@@ -1,1 +1,4 @@
 
+backend/backend-catalogo/venv/
+backend/backend-catalogo/database.db
+backend/backend-catalogo/env
