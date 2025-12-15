@@ -5,9 +5,10 @@ interface Props {
   product: Product;
   onEdit: () => void;
   onDelete: () => void;
+  deleting: boolean;
 }
 
-export function ProductCard({ product, onEdit, onDelete }: Props) {
+export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
   return (
     <div className="card">
       <img src={`${product.image_url}`} alt={product.title} />
@@ -21,8 +22,8 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
           <button className="edit" onClick={onEdit}>
             Editar
           </button>
-          <button className="delete" onClick={onDelete}>
-            Excluir
+          <button onClick={onDelete} disabled={deleting}>
+            {deleting ? "Excluindo..." : "Excluir"}
           </button>
         </div>
       </div>

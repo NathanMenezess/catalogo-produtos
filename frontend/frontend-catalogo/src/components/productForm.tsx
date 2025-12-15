@@ -15,6 +15,7 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (editingProduct) {
@@ -36,6 +37,7 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    setSaving(true);
 
     const formData = new FormData();
     formData.append("title", title);
@@ -63,15 +65,15 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
         onAdd(product);
       }
 
-      // reset
       setTitle("");
       setSubtitle("");
       setPrice("");
       setImage(null);
       setPreview(null);
     } catch (error) {
-      console.error(error);
       alert("Erro ao salvar produto");
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -89,7 +91,7 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
 
       <input
         type="text"
-        placeholder="Subtítulo"
+        placeholder="Código"
         value={subtitle}
         onChange={(e) => setSubtitle(e.target.value)}
         required
@@ -111,8 +113,14 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
         </div>
       )}
 
-      <button type="submit">
-        {editingProduct ? "Atualizar" : "Adicionar"}
+      <button type="submit" disabled={saving}>
+        {saving
+          ? editingProduct
+            ? "Atualizando..."
+            : "Salvando..."
+          : editingProduct
+          ? "Atualizar"
+          : "Adicionar"}
       </button>
     </form>
   );
