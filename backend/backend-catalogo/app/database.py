@@ -1,32 +1,42 @@
 import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 # =========================
-# Pegar a URL do banco
+# Carrega o .env
 # =========================
-DATABASE_URL = os.environ.get("DATABASE_URL")
+load_dotenv()
 
-if DATABASE_URL:
-    # =========================
-    # Conexão com PostgreSQL (produção)
-    # =========================
-    engine = create_engine(DATABASE_URL)
-    print("Conectando no PostgreSQL")
-else:
-    # =========================
-    # Conexão com SQLite local (desenvolvimento)
-    # =========================
-    print("DATABASE_URL não encontrada, usando SQLite local")
-    DATABASE_URL = "sqlite:///./database.db"
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+print("DATABASE_URL =", os.getenv("DATABASE_URL"))
 
 # =========================
-# Sessão do banco
+# URL do banco
 # =========================
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL não definida no .env")
+
+# Corrige caso venha postgres://
+DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 # =========================
-# Base para os models
+# Engine
+# =========================
+engine = create_engine(DATABASE_URL)
+print("Banco conectado com sucesso")
+
+# =========================
+# Sessão
+# =========================
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
+# =========================
+# Base
 # =========================
 Base = declarative_base()
