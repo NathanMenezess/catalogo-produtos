@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import "./home.css";
 import { ProductCard } from "../components/productCard";
@@ -24,24 +25,65 @@ export function Home() {
 
   function handleAdd(product: Product) {
     setProducts((prev) => [...prev, product]);
+
+    Swal.fire({
+      title: "Sucesso!",
+      text: "Produto cadastrado com sucesso.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
+    });
   }
-
   function handleDelete(id: number) {
-    if (!confirm("Deseja excluir este produto?")) return;
+    Swal.fire({
+      title: "Tem certeza?",
+      text: "Essa ação não pode ser desfeita!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (!result.isConfirmed) return;
 
-    setDeletingId(id);
+      setDeletingId(id);
 
-    Service.deleteProduct(id)
-      .then(() => {
-        setProducts((prev) => prev.filter((p) => p.id !== id));
-      })
-      .catch(() => alert("Erro ao excluir"))
-      .finally(() => setDeletingId(null));
+      Service.deleteProduct(id)
+        .then(() => {
+          setProducts((prev) => prev.filter((p) => p.id !== id));
+
+          Swal.fire({
+            title: "Excluído!",
+            text: "O produto foi removido com sucesso.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        })
+        .catch(() => {
+          Swal.fire({
+            title: "Erro",
+            text: "Não foi possível excluir o produto.",
+            icon: "error",
+          });
+        })
+        .finally(() => setDeletingId(null));
+    });
   }
 
   function handleUpdate(updated: Product) {
     setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+
     setEditingProduct(null);
+
+    Swal.fire({
+      title: "Atualizado!",
+      text: "Produto atualizado com sucesso.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
+    });
   }
 
   const filteredProducts = products.filter((product) => {

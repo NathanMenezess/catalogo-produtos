@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import Optional
 
+from sqlalchemy.exc import OperationalError
+import time
+
 from . import models, schemas
 from .database import SessionLocal, engine
 from .services.cloudinary_service import upload_image, delete_image
@@ -14,6 +17,16 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+
+@app.on_event("startup")
+def on_startup():
+    for _ in range(10):
+        try:
+            models.Base.metadata.create_all(bind=engine)
+            return
+        except OperationalError:
+            time.sleep(2)
+    raise RuntimeError("Falha ao conectar no banco após várias tentativas")
 # =========================
 # CORS
 # =========================
