@@ -69,16 +69,16 @@
     color: #555;
 }
 
-@media (max-width: 900px) {
-    .layout {
-        grid-template-columns: 1fr;
-    }
+.form-wrapper {
+    width: 100%;
+    margin-bottom: 24px;
+}
 
-    .sidebar {
-        position: static;
-    }
-
-    .search-row {
-        grid-template-columns: 1fr;
+/* Desktop: aumenta só essa parte do topo */
+@media (min-width: 900px) {
+    .form-wrapper {
+        max-width: 900px;
+        /* controla o tamanho do "card" */
+        margin: 0 auto 24px auto;
     }
 }

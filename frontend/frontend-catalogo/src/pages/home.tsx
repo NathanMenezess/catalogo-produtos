@@ -102,11 +102,13 @@ export function Home() {
     <div className="container">
       <div className="layout">
         <aside className="sidebar">
-          <ProductForm
-            onAdd={handleAdd}
-            onUpdate={handleUpdate}
-            editingProduct={editingProduct}
-          />
+          <div className="form-wrapper">
+            <ProductForm
+              onAdd={handleAdd}
+              onUpdate={handleUpdate}
+              editingProduct={editingProduct}
+            />
+          </div>
         </aside>
 
         <main className="content">
