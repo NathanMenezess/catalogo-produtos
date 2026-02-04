@@ -1,42 +1,24 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 32px 24px;
 }
 
-.layout {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    /* form | conteúdo */
-    gap: 24px;
-    align-items: start;
-}
-
-.sidebar {
-    position: sticky;
-    top: 24px;
-}
-
-.sidebar>* {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 18px;
-}
-
-.content-header {
+.container h2 {
     margin-bottom: 16px;
 }
 
-.content-header h2 {
-    margin: 0 0 12px 0;
-}
-
-.search-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* 2 inputs lado a lado no desktop */
-    gap: 12px;
+.search-container {
+    margin: 20px 0;
+    width: 100%;
+    max-width: 500px;
 }
 
 .search-input {
@@ -46,6 +28,8 @@
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.3s;
+    margin-bottom: 25px;
+
 }
 
 .search-input:focus {
@@ -54,31 +38,10 @@
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-    justify-items: center;
-}
-
 .loading {
     text-align: center;
     font-size: 18px;
     font-weight: 600;
     margin-top: 30px;
     color: #555;
-}
-
-.form-wrapper {
-    width: 100%;
-    margin-bottom: 24px;
-}
-
-/* Desktop: aumenta só essa parte do topo */
-@media (min-width: 900px) {
-    .form-wrapper {
-        max-width: 900px;
-        /* controla o tamanho do "card" */
-        margin: 0 auto 24px auto;
-    }
 }

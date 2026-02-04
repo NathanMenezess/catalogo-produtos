@@ -100,57 +100,44 @@ export function Home() {
 
   return (
     <div className="container">
-      <div className="layout">
-        <aside className="sidebar">
-          <div className="form-wrapper">
-            <ProductForm
-              onAdd={handleAdd}
-              onUpdate={handleUpdate}
-              editingProduct={editingProduct}
+      {" "}
+      <ProductForm
+        onAdd={handleAdd}
+        onUpdate={handleUpdate}
+        editingProduct={editingProduct}
+      />{" "}
+      <h2>Produtos</h2> {/* Campo de busca */}{" "}
+      <input
+        className="search-input"
+        type="text"
+        placeholder="Buscar por título..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />{" "}
+      {/* Campo de busca por codigo */}{" "}
+      <input
+        className="search-input"
+        type="text"
+        placeholder="Buscar por código..."
+        value={buscarCodigo}
+        onChange={(e) => setBuscarCodigo(e.target.value)}
+      />{" "}
+      {loading ? (
+        <p className="loading">Carregando produtos...</p>
+      ) : (
+        <div className="grid">
+          {" "}
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onEdit={() => setEditingProduct(product)}
+              onDelete={() => handleDelete(product.id)}
+              deleting={deletingId === product.id}
             />
-          </div>
-        </aside>
-
-        <main className="content">
-          <div className="content-header">
-            <h2>Produtos</h2>
-
-            <div className="search-row">
-              <input
-                className="search-input"
-                type="text"
-                placeholder="Buscar por título..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-
-              <input
-                className="search-input"
-                type="text"
-                placeholder="Buscar por código..."
-                value={buscarCodigo}
-                onChange={(e) => setBuscarCodigo(e.target.value)}
-              />
-            </div>
-          </div>
-
-          {loading ? (
-            <p className="loading">Carregando produtos...</p>
-          ) : (
-            <div className="grid">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onEdit={() => setEditingProduct(product)}
-                  onDelete={() => handleDelete(product.id)}
-                  deleting={deletingId === product.id}
-                />
-              ))}
-            </div>
-          )}
-        </main>
-      </div>
+          ))}{" "}
+        </div>
+      )}{" "}
     </div>
   );
 }
