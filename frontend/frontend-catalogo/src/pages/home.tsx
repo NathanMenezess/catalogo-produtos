@@ -100,47 +100,55 @@ export function Home() {
 
   return (
     <div className="container">
-      <ProductForm
-        onAdd={handleAdd}
-        onUpdate={handleUpdate}
-        editingProduct={editingProduct}
-      />
+      <div className="layout">
+        <aside className="sidebar">
+          <ProductForm
+            onAdd={handleAdd}
+            onUpdate={handleUpdate}
+            editingProduct={editingProduct}
+          />
+        </aside>
 
-      <h2>Produtos</h2>
+        <main className="content">
+          <div className="content-header">
+            <h2>Produtos</h2>
 
-      {/* Campo de busca */}
-      <input
-        className="search-input"
-        type="text"
-        placeholder="Buscar por título..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+            <div className="search-row">
+              <input
+                className="search-input"
+                type="text"
+                placeholder="Buscar por título..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
 
-      {/* Campo de busca por codigo */}
-      <input
-        className="search-input"
-        type="text"
-        placeholder="Buscar por código..."
-        value={buscarCodigo}
-        onChange={(e) => setBuscarCodigo(e.target.value)}
-      />
+              <input
+                className="search-input"
+                type="text"
+                placeholder="Buscar por código..."
+                value={buscarCodigo}
+                onChange={(e) => setBuscarCodigo(e.target.value)}
+              />
+            </div>
+          </div>
 
-      {loading ? (
-        <p className="loading">Carregando produtos...</p>
-      ) : (
-        <div className="grid">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onEdit={() => setEditingProduct(product)}
-              onDelete={() => handleDelete(product.id)}
-              deleting={deletingId === product.id}
-            />
-          ))}
-        </div>
-      )}
+          {loading ? (
+            <p className="loading">Carregando produtos...</p>
+          ) : (
+            <div className="grid">
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onEdit={() => setEditingProduct(product)}
+                  onDelete={() => handleDelete(product.id)}
+                  deleting={deletingId === product.id}
+                />
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
