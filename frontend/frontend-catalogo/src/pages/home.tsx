@@ -16,7 +16,6 @@ export function Home() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   useEffect(() => {
-    setLoading(true);
     Service.getProducts()
       .then(setProducts)
       .catch(console.error)
