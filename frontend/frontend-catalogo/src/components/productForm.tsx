@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { useRef ,useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import type { Product } from "../types/Product";
 import "./productForm.css";
 import * as Service from "../services/api";
@@ -17,15 +17,27 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
   const [preview, setPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    if (editingProduct) {
-      setTitle(editingProduct.title);
-      setSubtitle(editingProduct.subtitle);
-      setPrice(editingProduct.price.toString());
-      setPreview(editingProduct.image_url);
-      setImage(null); // imagem opcional no editar
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+
+useEffect(() => {
+  if (editingProduct) {
+    setTitle(editingProduct.title);
+    setSubtitle(editingProduct.subtitle);
+    setPrice(editingProduct.price.toString());
+    setPreview(editingProduct.image_url);
+    setImage(null);
+
+    if (formRef.current) {
+      formRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
-  }, [editingProduct]);
+  }
+}, [editingProduct]);
+
 
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
@@ -78,7 +90,7 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
   }
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="form" ref={formRef} onSubmit={handleSubmit}>
       <h3>{editingProduct ? "Editar Produto" : "Novo Produto"}</h3>
 
       <input

@@ -1,6 +1,7 @@
 import type { Product } from "../types/Product";
 import "./productCard.css";
 
+
 interface Props {
   product: Product;
   onEdit: () => void;
