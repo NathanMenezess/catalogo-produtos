@@ -3,6 +3,8 @@
 # Catálogo de Produtos - TCC
 *Sistema dinâmico para gestão de inventário e visualização de produtos em tempo real*
 
+[![Board do Projeto](https://img.shields.io/badge/Acompanhar_Progresso-Board_do_Projeto-blue?style=for-the-badge&logo=github)](https://github.com/users/NathanMenezess/projects/2)
+
 ---
 
 </div>
@@ -53,3 +55,4 @@ Uma plataforma dinâmica que concede ao administrador o controle integral sobre 
 
 * **Fase 1 (Concluída):** Planejamento, Design e Estrutura Base.
 * **Fase 2 (Em andamento):** Integração de Backend e Implementação de Protocolos de Segurança.
+
