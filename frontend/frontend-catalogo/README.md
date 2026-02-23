@@ -1,73 +1,57 @@
-# React + TypeScript + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Catálogo de Produtos - TCC
+*Sistema dinâmico para gestão de inventário e visualização de produtos em tempo real*
 
-Currently, two official plugins are available:
+[![Board do Projeto](https://img.shields.io/badge/Acompanhar_Progresso-Board_do_Projeto-blue?style=for-the-badge&logo=github)](https://github.com/users/NathanMenezess/projects/2)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+</div>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Definição do Projeto
 
-## Expanding the ESLint configuration
+**Problema**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Muitas organizações enfrentam entraves operacionais ao tentar manter catálogos atualizados e acessíveis. A dependência de arquivos estáticos, tais como documentos em formato PDF ou planilhas eletrônicas, frequentemente resulta em discrepâncias de estoque e lentidão no ciclo de vendas.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Solução Proposta**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Uma plataforma dinâmica que concede ao administrador o controle integral sobre o inventário em tempo real, fundamentada nos pilares de centralização, agilidade e segurança.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Aspectos Técnicos
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* **Stack Tecnológica**
+  
+  * **Front-end:** TypeScript, React e Vite.
+  * **Back-end:** Python 3.12 com ambiente virtual (venv).
+  * **Banco de Dados:** SQLite (database.db) estruturado em Modelos e Schemas.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* **Requisitos Funcionais**
+  
+  * **RF01:** Gestão de Níveis de Acesso (Admin, Vendedor e Cliente).
+  * **RF02:** Catálogo Dinâmico com interface de busca em tempo real.
+  * **RF03:** CRUD de Produtos com suporte a upload de imagens.
+  * **RF04:** Gestão de Pedidos e sistema de carrinho de compras.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+<div align="center">
+
+### Equipe de Desenvolvimento
+
+| Nome Completo | Responsabilidade | Usuário GitHub |
+| :--- | :--- | :--- |
+| **Débora Vitória Souza Martins** | Front-end e UX/UI | [@deboramartins-svg](https://github.com/deboramartins-svg) |
+| **Everton Rodrigues Machado** | Modelagem e Banco de Dados | [@evertonrm89](https://github.com/evertonrm89) |
+| **Kauã Tome Dos Santos** | Back-end e Infraestrutura | [@Kauasts08](https://github.com/Kauasts08) |
+| **Nathan Augusto Menezes** | Front-end e UX/UI | [@NathanMenezess](https://github.com/NathanMenezess) |
+| **Steyce Saraiva Lazarevitch** | Modelagem e Banco de Dados | [@steyce](https://github.com/steyce) |
+| **Rubio Vieira dos Santos** | Back-end e Infraestrutura | [@RubioVsantos1607](https://github.com/RubioVsantos1607) |
+
+</div>
+
+## Cronograma e Status
+
+* **Fase 1 (Concluída):** Planejamento, Design e Estrutura Base.
+* **Fase 2 (Em andamento):** Integração de Backend e Implementação de Protocolos de Segurança.
