@@ -25,7 +25,7 @@ Uma plataforma dinâmica que concede ao administrador o controle integral sobre 
   
   * **Front-end:** TypeScript, React e Vite.
   * **Back-end:** Python 3.12 com ambiente virtual (venv).
-  * **Banco de Dados:** SQLite (database.db) estruturado em Modelos e Schemas.
+  * **Banco de Dados:** PostgreSQL hospedado via Supabase.
 
 * **Requisitos Funcionais**
   
@@ -55,4 +55,5 @@ Uma plataforma dinâmica que concede ao administrador o controle integral sobre 
 
 * **Fase 1 (Concluída):** Planejamento, Design e Estrutura Base.
 * **Fase 2 (Em andamento):** Integração de Backend e Implementação de Protocolos de Segurança.
+
 
