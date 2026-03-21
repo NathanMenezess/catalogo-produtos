@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import { useRef ,useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-=======
 import {
   useEffect,
   useState,
@@ -8,7 +5,6 @@ import {
   type ChangeEvent,
   type FormEvent,
 } from "react";
->>>>>>> teste-v2-oficial
 import type { Product } from "../types/Product";
 import "./productForm.css";
 import * as Service from "../services/api";
@@ -34,25 +30,8 @@ export function ProductForm({
   const [preview, setPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-<<<<<<< HEAD
+  const fileRef = useRef<HTMLInputElement | null>(null);
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-
-useEffect(() => {
-  if (editingProduct) {
-    setTitle(editingProduct.title);
-    setSubtitle(editingProduct.subtitle);
-    setPrice(editingProduct.price.toString());
-    setPreview(editingProduct.image_url);
-    setImage(null);
-
-    if (formRef.current) {
-      formRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-=======
   useEffect(() => {
     if (editingProduct) {
       setTitle(editingProduct.title);
@@ -66,14 +45,12 @@ useEffect(() => {
       setPrice("");
       setImage(null);
       setPreview(null);
+
       if (fileRef.current) {
         fileRef.current.value = "";
       }
->>>>>>> teste-v2-oficial
     }
-  }
-}, [editingProduct]);
-
+  }, [editingProduct]);
 
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
@@ -129,20 +106,13 @@ useEffect(() => {
     }
   }
 
-  const fileRef = useRef<HTMLInputElement | null>(null);
-
   const role = getRole();
   const isAdmin = role === "admin" || role === "vendedor";
 
   return (
-<<<<<<< HEAD
-    <form className="form" ref={formRef} onSubmit={handleSubmit}>
-      <h3>{editingProduct ? "Editar Produto" : "Novo Produto"}</h3>
-=======
     isAdmin && (
       <form className="form" onSubmit={handleSubmit}>
         <h3>{editingProduct ? "Editar Produto" : "Novo Produto"}</h3>
->>>>>>> teste-v2-oficial
 
         <input
           type="text"
