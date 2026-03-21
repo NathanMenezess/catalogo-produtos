@@ -1,6 +1,6 @@
 import { getRole, clearToken } from "../services/authStorage";
 import { useNavigate } from "react-router-dom";
-import "./profile.css";
+import "./Profile.css";
 
 export function Profile() {
   const role = getRole();
