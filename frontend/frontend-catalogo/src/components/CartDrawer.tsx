@@ -8,19 +8,95 @@ import {
 } from "../services/cartApi";
 import { useNavigate } from "react-router-dom";
 
+type Product = {
+  id: number;
+  title: string;
+  price: number | string;
+  image_url: string;
+};
+
+type CartItem = {
+  id: number;
+  quantity: number;
+  product: Product;
+};
+
+type Cart = {
+  items: CartItem[];
+  total: number | string;
+};
+
 type Props = {
   open: boolean;
   onClose: () => void;
 };
 
 export function CartDrawer({ open, onClose }: Props) {
-  const [cart, setCart] = useState<any>(null);
+  const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  async function loadCart() {
+    try {
+      setLoading(true);
+      const data = await getCart();
+      setCart(data);
+    } catch (error) {
+      console.error("Erro ao carregar carrinho:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    if (open) getCart().then(setCart);
+    if (open) {
+      loadCart();
+    }
   }, [open]);
+
+  async function handleUpdateQuantity(productId: number, newQuantity: number) {
+    if (newQuantity < 1) return;
+
+    try {
+      setLoading(true);
+      const updatedCart = await updateCartItemByProduct(productId, newQuantity);
+      setCart(updatedCart);
+    } catch (error) {
+      console.error("Erro ao atualizar item:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleRemoveItem(itemId: number) {
+    try {
+      setLoading(true);
+      const updatedCart = await removeCartItem(itemId);
+      setCart(updatedCart);
+    } catch (error) {
+      console.error("Erro ao remover item:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleClearCart() {
+    try {
+      setLoading(true);
+      const updatedCart = await clearCart();
+      setCart(updatedCart);
+    } catch (error) {
+      console.error("Erro ao limpar carrinho:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleCheckout() {
+    setLoading(true);
+    onClose();
+    navigate("/checkout");
+  }
 
   if (!open) return null;
 
@@ -38,7 +114,11 @@ export function CartDrawer({ open, onClose }: Props) {
         </div>
 
         <div className="cart-body">
-          {!cart || cart.items.length === 0 ? (
+          {loading && !cart ? (
+            <div className="cart-empty">
+              <p>Carregando carrinho...</p>
+            </div>
+          ) : !cart || cart.items.length === 0 ? (
             <div className="cart-empty">
               <div className="cart-empty-icon">🛒</div>
               <p>Carrinho vazio</p>
@@ -48,7 +128,7 @@ export function CartDrawer({ open, onClose }: Props) {
             </div>
           ) : (
             <>
-              {cart.items.map((item: any) => (
+              {cart.items.map((item) => (
                 <div key={item.id} className="cart-item">
                   <img
                     className="cart-img"
@@ -71,11 +151,12 @@ export function CartDrawer({ open, onClose }: Props) {
                         <button
                           className="qty-btn"
                           onClick={() =>
-                            updateCartItemByProduct(
+                            handleUpdateQuantity(
                               item.product.id,
                               item.quantity - 1,
-                            ).then(setCart)
+                            )
                           }
+                          disabled={loading || item.quantity <= 1}
                         >
                           -
                         </button>
@@ -85,11 +166,12 @@ export function CartDrawer({ open, onClose }: Props) {
                         <button
                           className="qty-btn"
                           onClick={() =>
-                            updateCartItemByProduct(
+                            handleUpdateQuantity(
                               item.product.id,
                               item.quantity + 1,
-                            ).then(setCart)
+                            )
                           }
+                          disabled={loading}
                         >
                           +
                         </button>
@@ -97,7 +179,8 @@ export function CartDrawer({ open, onClose }: Props) {
 
                       <button
                         className="link-btn"
-                        onClick={() => removeCartItem(item.id).then(setCart)}
+                        onClick={() => handleRemoveItem(item.id)}
+                        disabled={loading}
                       >
                         Remover
                       </button>
@@ -119,18 +202,15 @@ export function CartDrawer({ open, onClose }: Props) {
             <div className="cart-footer-buttons">
               <button
                 className="btn btn-ghost"
-                onClick={() => clearCart().then(setCart)}
+                onClick={handleClearCart}
                 disabled={loading}
               >
-                Limpar
+                {loading ? "Limpando..." : "Limpar"}
               </button>
 
               <button
                 className="btn btn-primary"
-                onClick={() => {
-                  onClose();
-                  navigate("/checkout");
-                }}
+                onClick={handleCheckout}
                 disabled={loading}
               >
                 {loading ? "Finalizando..." : "Finalizar compra"}

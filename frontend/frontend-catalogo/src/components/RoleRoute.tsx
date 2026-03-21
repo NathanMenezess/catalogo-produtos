@@ -1,9 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { getRole, isLoggedIn } from "../services/authStorage";
+import React from "react";
 
 type Props = {
   allow: Array<"cliente" | "admin" | "vendedor">;
-  children: JSX.Element;
+  children: React.ReactNode;
 };
 
 export function RoleRoute({ allow, children }: Props) {
@@ -12,9 +13,8 @@ export function RoleRoute({ allow, children }: Props) {
   const role = getRole() as Props["allow"][number] | null;
 
   if (!role || !allow.includes(role)) {
-    // caiu aqui => não tem permissão, manda pro destino padrão
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 }
