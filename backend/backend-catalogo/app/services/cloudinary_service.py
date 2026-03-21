@@ -10,6 +10,7 @@ cloudinary.config(
     api_secret=os.getenv("CLOUDINARY_API_SECRET"),
 )
 
+
 def upload_image(file):
     result = cloudinary.uploader.upload(
         file.file,
@@ -17,6 +18,7 @@ def upload_image(file):
     )
     # Retornar URL e public_id
     return result["secure_url"], result["public_id"]
+
 
 def delete_image(public_id: str):
     try:

@@ -1,0 +1,311 @@
+:root {
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --border: #e8e8ef;
+    --text: #111827;
+    --muted: #6b7280;
+    --shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+    --radius: 14px;
+}
+
+.admin-users {
+    padding: 16px;
+    display: grid;
+    gap: 14px;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Header */
+.admin-users__header {
+    display: grid;
+    gap: 12px;
+}
+
+.admin-users__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.admin-users__subtitle {
+    margin: 2px 0 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.admin-users__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Card container */
+.admin-users__card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+}
+
+/* Filters */
+.admin-users__filters {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.admin-users__search,
+.admin-users__roleFilter,
+.admin-users__select {
+    width: 100%;
+    padding: 12px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    background: #fff;
+    font-size: 14px;
+}
+
+.admin-users__search:focus,
+.admin-users__roleFilter:focus,
+.admin-users__select:focus {
+    border-color: #c8c8d6;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+.admin-users__btn {
+    width: 100%;
+    padding: 12px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #f2f3f7;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.admin-users__btn:hover {
+    filter: brightness(0.98);
+}
+
+.admin-users__status {
+    padding: 12px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* Table (desktop) defaults */
+.admin-users__tableWrap {
+    overflow-x: auto;
+}
+
+.admin-users__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+}
+
+.admin-users__th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+}
+
+.admin-users__td {
+    padding: 12px;
+    border-bottom: 1px solid #f1f1f6;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.admin-users__row:hover {
+    background: #fafafa;
+}
+
+.admin-users__name {
+    font-weight: 700;
+}
+
+.admin-users__email {
+    color: var(--muted);
+    word-break: break-word;
+}
+
+.admin-users__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    background: #f6f7fb;
+    color: #374151;
+}
+
+.admin-users__deleteBtn {
+    width: 100%;
+    padding: 12px 12px;
+    border-radius: 12px;
+    border: 1px solid #f2b8b5;
+    background: #fff5f5;
+    color: #b42318;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.admin-users__deleteBtn:hover {
+    background: #ffecec;
+}
+
+.admin-users__deleteBtn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* MOBILE: transform table rows into cards */
+@media (max-width: 720px) {
+    .admin-users {
+        padding: 12px;
+    }
+
+    .admin-users__card {
+        padding: 12px;
+    }
+
+    /* make header actions fit better */
+    .admin-users__actions .admin-users__btn {
+        width: auto;
+        flex: 1;
+        min-width: 140px;
+    }
+
+    /* remove horizontal scroll / table look */
+    .admin-users__tableWrap {
+        overflow: visible;
+    }
+
+    .admin-users__table {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .admin-users__table thead {
+        display: none;
+    }
+
+    .admin-users__table,
+    .admin-users__table tbody,
+    .admin-users__table tr,
+    .admin-users__table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-users__row {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .admin-users__td {
+        border: 0;
+        padding: 10px 0;
+    }
+
+    /* label + value layout */
+    .admin-users__td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 6px;
+    }
+
+    /* access field: stack select + badge nicely */
+    .admin-users__select {
+        width: 100%;
+    }
+
+    .admin-users__badge {
+        margin-top: 10px;
+    }
+
+    /* actions: make button comfy */
+    .admin-users__deleteBtn {
+        width: 100%;
+    }
+}
+
+/*  DESKTOP: nicer header layout */
+@media (min-width: 721px) {
+    .admin-users {
+        padding: 20px;
+    }
+
+    .admin-users__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+    }
+
+    .admin-users__filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .admin-users__search {
+        min-width: 280px;
+        flex: 1;
+    }
+
+    .admin-users__roleFilter {
+        min-width: 200px;
+    }
+
+    .admin-users__btn {
+        width: auto;
+    }
+
+    .admin-users__deleteBtn {
+        width: auto;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}
+
+.admin-users__th--actions,
+.admin-users__td--actions {
+    text-align: center;
+}
+
+.admin-users__td--actions {
+    white-space: nowrap;
+}
+
+.admin-users__confirmRow {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}

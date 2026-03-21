@@ -1,0 +1,106 @@
+.profile-page {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+  padding: 20px;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 12px;
+}
+
+.profile-card h2 {
+  margin: 8px 0 20px;
+}
+
+.profile-info {
+  margin-bottom: 24px;
+}
+
+.profile-info div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-info span {
+  font-size: 13px;
+  color: #777;
+}
+
+.profile-info strong {
+  font-size: 15px;
+  text-transform: capitalize;
+}
+
+/* badge role */
+.role {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.role.cliente {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.role.admin {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.role.vendedor {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #e7e7e7;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.profile-actions button:hover {
+  background: #f6f6f6;
+}
+
+.profile-actions .danger {
+  border-color: #ffcdd2;
+  color: #c62828;
+}
+
+.profile-actions .danger:hover {
+  background: #ffecec;
+}

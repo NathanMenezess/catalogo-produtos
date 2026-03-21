@@ -1,15 +1,28 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import type { Product } from "../types/Product";
 import "./productForm.css";
 import * as Service from "../services/api";
+import { getRole } from "../services/authStorage";
 
 interface Props {
   onAdd: (product: Product) => void;
   onUpdate: (product: Product) => void;
   editingProduct: Product | null;
+  onCancelEdit?: () => void;
 }
 
-export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
+export function ProductForm({
+  onAdd,
+  onUpdate,
+  editingProduct,
+  onCancelEdit,
+}: Props) {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [price, setPrice] = useState("");
@@ -23,7 +36,16 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
       setSubtitle(editingProduct.subtitle);
       setPrice(editingProduct.price.toString());
       setPreview(editingProduct.image_url);
-      setImage(null); // imagem opcional no editar
+      setImage(null);
+    } else {
+      setTitle("");
+      setSubtitle("");
+      setPrice("");
+      setImage(null);
+      setPreview(null);
+      if (fileRef.current) {
+        fileRef.current.value = "";
+      }
     }
   }, [editingProduct]);
 
@@ -52,7 +74,7 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
       if (editingProduct) {
         const updated = await Service.updateProduct(
           editingProduct.id,
-          formData
+          formData,
         );
         onUpdate(updated);
       } else {
@@ -70,6 +92,10 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
       setPrice("");
       setImage(null);
       setPreview(null);
+
+      if (fileRef.current) {
+        fileRef.current.value = "";
+      }
     } catch (error) {
       alert("Erro ao salvar produto");
     } finally {
@@ -77,51 +103,82 @@ export function ProductForm({ onAdd, onUpdate, editingProduct }: Props) {
     }
   }
 
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  const role = getRole();
+  const isAdmin = role === "admin" || role === "vendedor";
+
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      <h3>{editingProduct ? "Editar Produto" : "Novo Produto"}</h3>
+    isAdmin && (
+      <form className="form" onSubmit={handleSubmit}>
+        <h3>{editingProduct ? "Editar Produto" : "Novo Produto"}</h3>
 
-      <input
-        type="text"
-        placeholder="Título"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
+        <input
+          type="text"
+          placeholder="Título"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
 
-      <input
-        type="text"
-        placeholder="Código"
-        value={subtitle}
-        onChange={(e) => setSubtitle(e.target.value)}
-        required
-      />
+        <input
+          type="text"
+          placeholder="Código"
+          value={subtitle}
+          onChange={(e) => setSubtitle(e.target.value)}
+          required
+        />
 
-      <input
-        type="number"
-        placeholder="Preço"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        required
-      />
+        <input
+          type="number"
+          placeholder="Preço"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "-" || e.key === "Subtract") {
+              e.preventDefault();
+            }
+          }}
+          min="0"
+          step="0.01"
+          required
+        />
 
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
 
-      {preview && (
-        <div className="preview">
-          <img src={preview} alt="Preview" />
+        {preview && (
+          <div className="preview">
+            <img src={preview} alt="Preview" />
+          </div>
+        )}
+
+        <div className="ButtonActions">
+          <button type="submit" disabled={saving}>
+            {saving
+              ? editingProduct
+                ? "Atualizando..."
+                : "Salvando..."
+              : editingProduct
+                ? "Atualizar"
+                : "Adicionar"}
+          </button>
+
+          {editingProduct && (
+            <button
+              type="button"
+              onClick={() => onCancelEdit?.()}
+              className="danger"
+            >
+              Cancelar edição
+            </button>
+          )}
         </div>
-      )}
-
-      <button type="submit" disabled={saving}>
-        {saving
-          ? editingProduct
-            ? "Atualizando..."
-            : "Salvando..."
-          : editingProduct
-          ? "Atualizar"
-          : "Adicionar"}
-      </button>
-    </form>
+      </form>
+    )
   );
 }

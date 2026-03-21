@@ -18,3 +18,5 @@ uvicorn==0.38.0
 cloudinary==1.39.0
 python-dotenv
 psycopg2-binary
+passlib[bcrypt]
+python-jose[cryptography]
