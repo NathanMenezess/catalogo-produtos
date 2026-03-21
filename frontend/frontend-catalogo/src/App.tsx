@@ -1,13 +1,121 @@
-import { Header } from "./components/header";
-import { Home } from "./pages/home";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { isLoggedIn, getRole } from "./services/authStorage";
 
-function App() {
-  return (
-    <>
-      <Header />
-      <Home />
-    </>
-  );
+import { Home } from "./pages/home";
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
+import { Header } from "./components/header";
+import { Profile } from "./pages/Profile";
+import { RoleRoute } from "./components/RoleRoute";
+import { AdminUsers } from "./pages/AdminUsers";
+import { Checkout } from "./pages/Checkout";
+import Orders from "./pages/Orders";
+
+function DefaultAfterLogin() {
+  const role = getRole();
+
+  if (role === "admin" || role === "vendedor") {
+    return <Navigate to="/admin/products" replace />;
+  }
+
+  return <Navigate to="/home" replace />; // cliente
 }
 
-export default App;
+export default function App() {
+  return (
+    <Routes>
+      {/* / decide o destino certo */}
+      <Route
+        path="/"
+        element={
+          isLoggedIn() ? (
+            <DefaultAfterLogin />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
+      {/* públicas */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* CLIENTE */}
+      <Route
+        path="/home"
+        element={
+          <RoleRoute allow={["cliente", "admin"]}>
+            <>
+              <Header />
+              <Home />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/orders"
+        element={
+          <RoleRoute allow={["cliente", "admin"]}>
+            <>
+              <Header />
+              <Orders />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <RoleRoute allow={["cliente", "admin", "vendedor"]}>
+            <>
+              <Header />
+              <Profile />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      {/* ADMIN/VENDEDOR */}
+      <Route
+        path="/admin/products"
+        element={
+          <RoleRoute allow={["admin", "vendedor"]}>
+            <>
+              <Header />
+              <Home />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/admin/users"
+        element={
+          <RoleRoute allow={["admin"]}>
+            <>
+              <Header />
+              <AdminUsers />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/checkout"
+        element={
+          <RoleRoute allow={["cliente", "admin"]}>
+            <>
+              <Header />
+              <Checkout />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      {/* fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}

@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./home.css";
 import { ProductCard } from "../components/productCard";
 import { ProductForm } from "../components/productForm";
@@ -9,8 +9,8 @@ import * as Service from "../services/api";
 export function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>(""); // estado para a busca
-  const [buscarCodigo, setBuscarCodigo] = useState<string>(""); // estado para a busca
+  const [searchTerm, setSearchTerm] = useState<string>(""); 
+  const [buscarCodigo, setBuscarCodigo] = useState<string>(""); 
 
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -97,46 +97,78 @@ export function Home() {
     return tituloMatch && codigoMatch;
   });
 
+  const formRef = useRef<HTMLDivElement | null>(null);
+
+  function handleEdit(product: Product) {
+    setEditingProduct(product);
+
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  }
+
   return (
     <div className="container">
-      {" "}
-      <ProductForm
-        onAdd={handleAdd}
-        onUpdate={handleUpdate}
-        editingProduct={editingProduct}
-      />{" "}
-      <h2>Produtos</h2> {/* Campo de busca */}{" "}
-      <input
-        className="search-input"
-        type="text"
-        placeholder="Buscar por título..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />{" "}
-      {/* Campo de busca por codigo */}{" "}
-      <input
-        className="search-input"
-        type="text"
-        placeholder="Buscar por código..."
-        value={buscarCodigo}
-        onChange={(e) => setBuscarCodigo(e.target.value)}
-      />{" "}
+      <div ref={formRef} className="form-area">
+        <ProductForm
+          onAdd={handleAdd}
+          onUpdate={handleUpdate}
+          editingProduct={editingProduct}
+          onCancelEdit={() => setEditingProduct(null)}
+        />
+      </div>
+
+      <div className="page-head">
+        <div>
+          <h2>Produtos</h2>
+          <p className="subtitle">
+            {filteredProducts.length} produto(s) encontrado(s)
+          </p>
+        </div>
+
+        <div className="search-row">
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Buscar por título..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Buscar por código..."
+            value={buscarCodigo}
+            onChange={(e) => setBuscarCodigo(e.target.value)}
+          />
+        </div>
+      </div>
+
       {loading ? (
-        <p className="loading">Carregando produtos...</p>
+        <div className="loading-box">
+          <div className="spinner" />
+          <p>Carregando produtos...</p>
+        </div>
+      ) : filteredProducts.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon">📦</div>
+          <h3>Nenhum produto encontrado</h3>
+          <p>Tente mudar os filtros de busca.</p>
+        </div>
       ) : (
         <div className="grid">
-          {" "}
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
-              onEdit={() => setEditingProduct(product)}
+              onEdit={() => handleEdit(product)}
               onDelete={() => handleDelete(product.id)}
               deleting={deletingId === product.id}
             />
-          ))}{" "}
+          ))}
         </div>
-      )}{" "}
+      )}
     </div>
   );
 }

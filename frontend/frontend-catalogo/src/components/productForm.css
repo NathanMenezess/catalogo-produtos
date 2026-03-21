@@ -50,3 +50,28 @@ button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.ButtonActions {
+    display: flex;
+    gap: 12px;
+}
+
+
+.form button.danger {
+    background: #e53935;
+    color: #fff;
+}
+
+.form button.danger:hover {
+    background: #c62828;
+}
+
+.add-to-cart {
+    background: #388e3c;
+    color: #fff;
+}
+
+.add-to-cart:hover {
+    background: #2e7d32;
+   
+}
