@@ -58,6 +58,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "https://catalogo-front.vercel.app",
+        "https://catalogo-front.vercel.app/",
         "https://catalogo-front-40ee88p01-nathanmenezes-projects.vercel.app/login",
     ],
     allow_credentials=True,
