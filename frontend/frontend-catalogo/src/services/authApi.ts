@@ -71,16 +71,11 @@ export async function login(
   return me;
 }
 
-export async function getMe(): Promise<{
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-}> {
+export async function getMe() {
   const token = getToken();
   if (!token) throw new Error("Sem token");
 
-  const res = await fetch("http://127.0.0.1:8000/auth/me", {
+  const res = await fetch(`${API_URL}/auth/me`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
