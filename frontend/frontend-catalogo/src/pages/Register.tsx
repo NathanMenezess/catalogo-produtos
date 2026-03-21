@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { register } from "../services/authApi";
 import "./Register.css";
+import { Link } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
   const [name, setName] = useState("");
@@ -10,6 +13,8 @@ export function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -17,7 +22,7 @@ export function Register() {
 
     try {
       await register({ name, email, password });
-      window.location.href = "/login";
+      navigate("/login");
     } catch (err: any) {
       setError(err?.message ?? "Erro ao cadastrar");
     } finally {
@@ -63,7 +68,7 @@ export function Register() {
         </form>
 
         <p className="register-footer">
-          Já tem conta? <a href="/login">Login</a>
+          Já tem conta? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>
