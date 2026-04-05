@@ -45,7 +45,7 @@ Uma plataforma dinâmica que concede ao administrador o controle integral sobre 
 | **Débora Vitória Souza Martins** | Front-end e UX/UI | [@deboramartins-svg](https://github.com/deboramartins-svg) |
 | **Everton Rodrigues Machado** | Modelagem e Banco de Dados | [@evertonrm89](https://github.com/evertonrm89) |
 | **Kauã Tome Dos Santos** | Back-end e Infraestrutura | [@Kauasts08](https://github.com/Kauasts08) |
-| **Nathan Augusto Menezes** | Front-end e UX/UI | [@NathanMenezess](https://github.com/NathanMenezess) |
+| **Nathan Augusto Menezes** | Front-end, UX/UI, Back-end, Infraestrutura, Modelagem e Banco de Dados  | [@NathanMenezess](https://github.com/NathanMenezess) |
 | **Steyce Saraiva Lazarevitch** | Modelagem e Banco de Dados | [@steyce](https://github.com/steyce) |
 | **Rubio Vieira dos Santos** | Back-end e Infraestrutura | [@RubioVsantos1607](https://github.com/RubioVsantos1607) |
 
