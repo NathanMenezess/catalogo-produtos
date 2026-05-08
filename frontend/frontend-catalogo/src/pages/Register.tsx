@@ -47,6 +47,7 @@ export function Register() {
             <input
               placeholder="E-mail"
               value={email}
+              type="email"
               required
               onChange={(e) => setEmail(e.target.value)}
             />
