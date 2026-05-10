@@ -152,6 +152,7 @@ export function Checkout() {
 
           <div className="checkout-row2">
             <input
+              className="checkout-input"
               type="text"
               placeholder="CEP"
               value={cep}
@@ -171,6 +172,7 @@ export function Checkout() {
             />
 
             <input
+              className="checkout-input"
               type="text"
               placeholder="Estado"
               value={stateUF}
@@ -179,6 +181,7 @@ export function Checkout() {
           </div>
 
           <input
+            className="checkout-input"
             type="text"
             placeholder="Rua / Avenida"
             value={street}
@@ -193,6 +196,7 @@ export function Checkout() {
               onChange={(e) => setNumber(e.target.value)}
             />
             <input
+              className="checkout-input"
               type="text"
               placeholder="Bairro"
               value={district}
@@ -202,6 +206,7 @@ export function Checkout() {
 
           <div className="checkout-row2">
             <input
+              className="checkout-input"
               type="text"
               placeholder="Cidade"
               value={city}
