@@ -23,6 +23,33 @@ export function Checkout() {
 
   const [placing, setPlacing] = useState(false);
 
+  async function buscarCep(cepDigitado: string) {
+    const cepLimpo = cepDigitado.replace(/\D/g, "");
+
+    if (cepLimpo.length !== 8) return;
+
+    try {
+      const response = await fetch(
+        `https://viacep.com.br/ws/${cepLimpo}/json/`,
+      );
+
+      const data = await response.json();
+
+      if (data.erro) {
+        alert("CEP não encontrado");
+        return;
+      }
+
+      setCep(data.cep);
+      setStreet(data.logradouro);
+      setDistrict(data.bairro);
+      setCity(data.localidade);
+      setStateUF(data.uf);
+    } catch (error) {
+      alert("Erro ao buscar CEP");
+    }
+  }
+
   useEffect(() => {
     (async () => {
       try {
@@ -54,8 +81,6 @@ export function Checkout() {
 
     setPlacing(true);
     try {
-      // ✅ Se seu backend ainda não aceita endereço, você pode criar o pedido igual
-      // e depois a gente adapta o backend pra salvar os campos.
       await createOrder({
         shipping: {
           name,
@@ -127,21 +152,34 @@ export function Checkout() {
 
           <div className="checkout-row2">
             <input
-              className="checkout-input"
+              type="text"
               placeholder="CEP"
               value={cep}
-              onChange={(e) => setCep(e.target.value)}
+              maxLength={9}
+              onChange={(e) => {
+                let value = e.target.value.replace(/\D/g, "");
+
+                if (value.length > 5) {
+                  value = value.replace(/^(\d{5})(\d)/, "$1-$2");
+                }
+
+                setCep(value);
+
+                buscarCep(value);
+              }}
+              required
             />
+
             <input
-              className="checkout-input"
-              placeholder="UF (ex: SP)"
+              type="text"
+              placeholder="Estado"
               value={stateUF}
               onChange={(e) => setStateUF(e.target.value)}
             />
           </div>
 
           <input
-            className="checkout-input"
+            type="text"
             placeholder="Rua / Avenida"
             value={street}
             onChange={(e) => setStreet(e.target.value)}
@@ -155,7 +193,7 @@ export function Checkout() {
               onChange={(e) => setNumber(e.target.value)}
             />
             <input
-              className="checkout-input"
+              type="text"
               placeholder="Bairro"
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
@@ -164,7 +202,7 @@ export function Checkout() {
 
           <div className="checkout-row2">
             <input
-              className="checkout-input"
+              type="text"
               placeholder="Cidade"
               value={city}
               onChange={(e) => setCity(e.target.value)}
