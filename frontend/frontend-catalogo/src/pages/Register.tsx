@@ -5,6 +5,32 @@ import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 
+function normalizeEmail(email: string) {
+  return email
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s/g, "")
+    .toLowerCase();
+}
+
+function validatePassword(password: string) {
+  const minLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  return {
+    valid: minLength && hasUppercase && hasNumber && hasSpecial,
+
+    errors: {
+      minLength,
+      hasUppercase,
+      hasNumber,
+      hasSpecial,
+    },
+  };
+}
+
 export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +47,24 @@ export function Register() {
     setError(null);
 
     try {
-      await register({ name, email, password });
+      const normalizedEmail = normalizeEmail(email);
+
+      const passwordValidation = validatePassword(password);
+
+      if (!passwordValidation.valid) {
+        setError(
+          "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula, um número e um caractere especial.",
+        );
+
+        setLoading(false);
+        return;
+      }
+
+      await register({
+        name,
+        email: normalizedEmail,
+        password,
+      });
       navigate("/login");
     } catch (err: any) {
       setError(err?.message ?? "Erro ao cadastrar");
@@ -49,7 +92,15 @@ export function Register() {
               value={email}
               type="email"
               required
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setEmail(
+                  e.target.value
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/\s/g, "")
+                    .toLowerCase(),
+                )
+              }
             />
 
             <input
@@ -59,6 +110,16 @@ export function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <small className="password-rules">
+              A senha deve conter:
+              <br />
+              • mínimo 8 caracteres
+              <br />
+              • uma letra maiúscula
+              <br />
+              • um número
+              <br />• um caractere especial
+            </small>
 
             <button disabled={loading} type="submit">
               {loading ? "Criando..." : "Cadastrar"}
