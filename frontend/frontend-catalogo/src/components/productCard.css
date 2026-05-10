@@ -1,15 +1,11 @@
 /* productCard.css */
 
-/* ✅ pega o seu HTML atual: .card */
 .card {
-<<<<<<< HEAD
-    width: 240px;
+    <<<<<<< HEAD width: 240px;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-=======
->>>>>>> teste-v2-oficial
-    background: #fff;
+    =======>>>>>>>teste-v2-oficial background: #fff;
     border: 1px solid #e8e8ef;
     border-radius: 14px;
     padding: 12px;
@@ -21,6 +17,10 @@
 
     min-width: 0;
     /* evita quebrar o grid */
+}
+
+.card {
+    cursor: pointer;
 }
 
 /* imagem do card */

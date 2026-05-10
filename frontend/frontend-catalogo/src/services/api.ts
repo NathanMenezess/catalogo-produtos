@@ -63,3 +63,21 @@ export async function updateProduct(
 
   return response.json();
 }
+
+export async function getProductById(id: number): Promise<Product> {
+  const response = await fetch(`${API_URL}/products/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Produto não encontrado");
+  }
+
+  const item = await response.json();
+
+  return {
+    id: item.id,
+    title: item.title,
+    subtitle: item.subtitle,
+    price: item.price,
+    image_url: item.image_url,
+  };
+}

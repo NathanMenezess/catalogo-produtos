@@ -10,6 +10,7 @@ import { RoleRoute } from "./components/RoleRoute";
 import { AdminUsers } from "./pages/AdminUsers";
 import { Checkout } from "./pages/Checkout";
 import Orders from "./pages/Orders";
+import { ProductDetails } from "./pages/ProductDetails";
 
 function DefaultAfterLogin() {
   const role = getRole();
@@ -24,7 +25,6 @@ function DefaultAfterLogin() {
 export default function App() {
   return (
     <Routes>
-      {/* / decide o destino certo */}
       <Route
         path="/"
         element={
@@ -109,6 +109,18 @@ export default function App() {
             <>
               <Header />
               <Checkout />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/products/:id"
+        element={
+          <RoleRoute allow={["cliente", "admin", "vendedor"]}>
+            <>
+              <Header />
+              <ProductDetails />
             </>
           </RoleRoute>
         }

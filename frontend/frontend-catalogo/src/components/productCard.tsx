@@ -2,7 +2,7 @@ import type { Product } from "../types/Product";
 import "./productCard.css";
 import { addToCart } from "../services/cartApi";
 import { getRole } from "../services/authStorage";
-
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   product: Product;
@@ -16,9 +16,10 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
   const isCliente = role === "cliente";
   const isAdmin = role === "admin";
   const canManage = role === "admin" || role === "vendedor";
+  const navigate = useNavigate();
 
   return (
-    <div className="card">
+    <div className="card" onClick={() => navigate(`/products/${product.id}`)}>
       <img src={product.image_url} alt={product.title} />
 
       <div className="card-content">
@@ -29,10 +30,17 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
         <div className="actions">
           {canManage && (
             <>
-              <button className="edit" onClick={onEdit}>
+              <button
+                className="edit"
+                onClick={((e) => e.stopPropagation(), onEdit())}
+              >
                 Editar
               </button>
-              <button className="danger" onClick={onDelete} disabled={deleting}>
+              <button
+                className="danger"
+                onClick={((e) => e.stopPropagation(), onDelete())}
+                disabled={deleting}
+              >
                 {deleting ? "Excluindo..." : "Excluir"}
               </button>
             </>
@@ -40,7 +48,13 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
         </div>
 
         {(isCliente || isAdmin) && (
-          <button className="addCart" onClick={() => addToCart(product.id, 1)}>
+          <button
+            className="addCart"
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCart(product.id, 1);
+            }}
+          >
             Adicionar ao carrinho
           </button>
         )}
