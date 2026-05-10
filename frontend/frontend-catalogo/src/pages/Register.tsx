@@ -44,6 +44,7 @@ export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [inviteCode, setInviteCode] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -81,6 +82,7 @@ export function Register() {
         name,
         email: normalizedEmail,
         password,
+        invite_code: inviteCode,
       });
       navigate("/login");
     } catch (err: any) {
@@ -137,6 +139,12 @@ export function Register() {
               • um número
               <br />• um caractere especial
             </small>
+
+            <input
+              placeholder="Código de indicação (opcional)"
+              value={inviteCode}
+              onChange={(e) => setInviteCode(e.target.value.trim())}
+            />
 
             <button disabled={loading} type="submit">
               {loading ? "Criando..." : "Cadastrar"}

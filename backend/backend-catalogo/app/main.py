@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 import time
 
@@ -93,7 +94,9 @@ def root():
 @app.post("/auth/register", response_model=schemas.UserResponse)
 def register_user(payload: schemas.UserCreate, db: Session = Depends(get_db)):
     #  sempre cria como CLIENTE
-    role = "cliente"
+   ADMIN_INVITE_CODE = os.getenv("ADMIN_INVITE_CODE")
+
+    role = "admin" if payload.invite_code == ADMIN_INVITE_CODE else "cliente"
 
     existing = db.query(models.User).filter(models.User.email == payload.email).first()
     if existing:
