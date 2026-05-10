@@ -32,13 +32,19 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
             <>
               <button
                 className="edit"
-                onClick={((e) => e.stopPropagation(), onEdit())}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
               >
                 Editar
               </button>
               <button
                 className="danger"
-                onClick={((e) => e.stopPropagation(), onDelete())}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete();
+                }}
                 disabled={deleting}
               >
                 {deleting ? "Excluindo..." : "Excluir"}
