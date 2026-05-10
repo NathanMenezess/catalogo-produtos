@@ -31,6 +31,15 @@ function validatePassword(password: string) {
   };
 }
 
+function validateFullName(name: string) {
+  const parts = name
+    .trim()
+    .split(" ")
+    .filter((part) => part.length > 0);
+
+  return parts.length >= 2;
+}
+
 export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,6 +57,14 @@ export function Register() {
 
     try {
       const normalizedEmail = normalizeEmail(email);
+
+      const isValidName = validateFullName(name);
+
+      if (!isValidName) {
+        setError("Digite nome e sobrenome.");
+        setLoading(false);
+        return;
+      }
 
       const passwordValidation = validatePassword(password);
 
@@ -81,9 +98,9 @@ export function Register() {
         <form onSubmit={onSubmit}>
           <div className="register-fields">
             <input
-              placeholder="Nome"
+              placeholder="Nome e sobrenome"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value.replace(/\s{2,}/g, " "))}
               required
             />
 
