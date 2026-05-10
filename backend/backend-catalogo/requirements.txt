@@ -19,3 +19,4 @@ cloudinary==1.39.0
 python-dotenv
 psycopg2-binary
 email-validator
+python-jose[cryptography]
