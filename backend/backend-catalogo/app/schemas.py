@@ -10,6 +10,7 @@ class ProductBase(BaseModel):
     title: str
     subtitle: str
     price: float
+    description: str | None = None
 
 
 class ProductCreate(ProductBase):
@@ -22,6 +23,7 @@ class ProductResponse(BaseModel):
     subtitle: str
     price: float
     image_url: str
+    description: str | None = None
 
     class Config:
         from_attributes = True

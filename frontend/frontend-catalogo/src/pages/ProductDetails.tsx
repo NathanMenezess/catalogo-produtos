@@ -37,7 +37,7 @@ export function ProductDetails() {
   return (
     <>
       <div className="details-container">
-        <button className="back-button" onClick={() => navigate(-1)}>
+        <button className="orders-back" onClick={() => navigate(-1)}>
           ← Voltar
         </button>
 
@@ -52,8 +52,8 @@ export function ProductDetails() {
             <h1>{product.title}</h1>
 
             <p className="details-description">
-              Aqui você pode colocar uma descrição mais completa do produto,
-              informações técnicas, benefícios ou detalhes importantes.
+              {product.description ||
+                "Este produto ainda não possui descrição detalhada."}
             </p>
 
             <strong className="details-price">

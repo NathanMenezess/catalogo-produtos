@@ -134,6 +134,7 @@ def create_product(
     title: str = Form(...),
     subtitle: str = Form(...),
     price: float = Form(...),
+    description: str = Form(...),
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
     _user: models.User = Depends(require_roles("admin", "vendedor")),
@@ -146,6 +147,7 @@ def create_product(
         price=price,
         image_url=image_url,
         image_public_id=image_public_id,
+        description=description,
     )
     db.add(product)
     db.commit()
@@ -188,6 +190,7 @@ def update_product(
     title: str = Form(...),
     subtitle: str = Form(...),
     price: float = Form(...),
+    description: str = Form(...),
     image: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     _user: models.User = Depends(require_roles("admin", "vendedor")),
@@ -199,6 +202,7 @@ def update_product(
     product.title = title
     product.subtitle = subtitle
     product.price = price
+    product.description = description
 
     if image:
         if product.image_public_id:

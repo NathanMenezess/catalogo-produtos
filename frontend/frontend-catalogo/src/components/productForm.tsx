@@ -29,6 +29,7 @@ export function ProductForm({
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [description, setDescription] = useState("");
 
   const fileRef = useRef<HTMLInputElement | null>(null);
 
@@ -38,11 +39,13 @@ export function ProductForm({
       setSubtitle(editingProduct.subtitle);
       setPrice(editingProduct.price.toString());
       setPreview(editingProduct.image_url);
+      setDescription(editingProduct.description || "");
       setImage(null);
     } else {
       setTitle("");
       setSubtitle("");
       setPrice("");
+      setDescription("");
       setImage(null);
       setPreview(null);
 
@@ -68,7 +71,7 @@ export function ProductForm({
     formData.append("title", title);
     formData.append("subtitle", subtitle);
     formData.append("price", price);
-
+    formData.append("description", description);
     if (image) {
       formData.append("image", image);
     }
@@ -143,6 +146,12 @@ export function ProductForm({
           min="0"
           step="0.01"
           required
+        />
+
+        <textarea
+          placeholder="Descrição detalhada do produto"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
 
         <input

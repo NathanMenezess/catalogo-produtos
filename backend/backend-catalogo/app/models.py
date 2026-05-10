@@ -27,6 +27,7 @@ class Product(Base):
     price = Column(Float, nullable=False)
     image_url = Column(String, nullable=False)
     image_public_id = Column(String, nullable=True)
+    description = Column(Text, nullable=True)
 
 
 # =========================
