@@ -1,5 +1,50 @@
-.env
-.database.db
-*.db
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# virtual env
+venv/
+.env/
+.venv/
+
+# environment variables
+.env
+
+# logs
+*.log
+
+# database
+*.db
+*.sqlite3
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# pycache
+__pycache__/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# uploads
+uploads/
+
+# build
+dist/
+build/
+
+# coverage
+.coverage
+htmlcov/
+
+# cache
+.cache/
