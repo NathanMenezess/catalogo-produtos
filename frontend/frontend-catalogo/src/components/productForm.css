@@ -73,5 +73,36 @@ button:disabled {
 
 .add-to-cart:hover {
     background: #2e7d32;
-   
+
+}
+
+.form textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    margin-bottom: 12px;
+
+    border-radius: 8px;
+    border: 1px solid #ccc;
+
+    font-size: 1rem;
+    font-family: inherit;
+
+    resize: vertical;
+    outline: none;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form textarea:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+}
+
+.form textarea::placeholder {
+    color: #999;
+}
+
+.form textarea {
+    max-height: 220px;
 }

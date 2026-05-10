@@ -51,13 +51,10 @@ export function ProductDetails() {
 
             <h1>{product.title}</h1>
 
-            <div className="description-section">
-              <h3>Descrição do Produto</h3>
-
-              <p className="details-description">
-                {product.description || "Sem descrição disponível."}
-              </p>
-            </div>
+            <p className="details-description">
+              {product.description ||
+                "Este produto ainda não possui descrição detalhada."}
+            </p>
 
             <strong className="details-price">
               R$ {product.price.toFixed(2)}
