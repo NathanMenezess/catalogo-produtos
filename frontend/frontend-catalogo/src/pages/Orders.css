@@ -269,12 +269,15 @@
     max-width: 90%;
 }
 
-.danger {
+.dangerVoltar {
     background: #fff5f5;
     color: #b42318;
+    width: 29%;
+    height: 30px;
+    border-radius: 10px;
     border: 1px solid #f2b8b5;
 }
 
-.danger:hover {
+.dangerVoltar:hover {
     background: #ffecec;
 }
