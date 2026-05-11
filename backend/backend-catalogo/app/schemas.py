@@ -132,6 +132,12 @@ class OrderResponse(BaseModel):
     created_at: datetime
     items: List[OrderItemResponse]
 
+    customer_name: str | None = None
+    customer_email: str | None = None
+    customer_phone: str | None = None
+    address: str | None = None
+    notes: str | None = None
+
     class Config:
         from_attributes = True
 

@@ -21,11 +21,22 @@ type Order = {
   total?: number;
   status?: "pending" | "paid" | string;
   created_at?: string;
+
+  shipping_name?: string;
+  shipping_phone?: string;
+  shipping_cep?: string;
+  shipping_street?: string;
+  shipping_number?: string;
+  shipping_district?: string;
+  shipping_city?: string;
+  shipping_state?: string;
+
   items?: OrderItem[];
 };
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   // MUI Select states
@@ -215,6 +226,13 @@ export default function Orders() {
                   <span className="order-dateValue">{created}</span>
                 </div>
 
+                <button
+                  onClick={() => setSelectedOrder(o)}
+                  className="details-button"
+                >
+                  Ver detalhes
+                </button>
+
                 {o.status === "pending" && (
                   <button
                     className="order-payButton"
@@ -245,6 +263,54 @@ export default function Orders() {
               </div>
             );
           })}
+        </div>
+      )}
+      {selectedOrder && (
+        <div className="details-modal">
+          <div className="details-content">
+            <h2>Detalhes do Pedido</h2>
+
+            <p>
+              <strong>Cliente:</strong>{" "}
+              {selectedOrder.shipping_name || "Não informado"}
+            </p>
+
+            <p>
+              <strong>Telefone:</strong>{" "}
+              {selectedOrder.shipping_phone || "Não informado"}
+            </p>
+
+            <p>
+              <strong>Endereço:</strong>{" "}
+              {selectedOrder.shipping_street || "Rua não informada"},{" "}
+              {selectedOrder.shipping_number || "s/n"} -{" "}
+              {selectedOrder.shipping_district || "Bairro não informado"},{" "}
+              {selectedOrder.shipping_city || "Cidade não informada"} /{" "}
+              {selectedOrder.shipping_state || "UF não informada"}
+            </p>
+
+            <p>
+              <strong>CEP:</strong>{" "}
+              {selectedOrder.shipping_cep || "Não informado"}
+            </p>
+
+            <p>
+              <strong>Observações:</strong> {selectedOrder.notes || "Nenhuma"}
+            </p>
+
+            <h3>Itens</h3>
+
+            {selectedOrder.items?.map((item: any, idx: number) => (
+              <div key={item.id ?? idx}>
+                {item.title ?? `Produto #${item.product_id}`} -{" "}
+                {item.quantity ?? 1}x
+              </div>
+            ))}
+
+            <h3>Total: R$ {Number(selectedOrder.total || 0).toFixed(2)}</h3>
+
+            <button onClick={() => setSelectedOrder(null)}>Fechar</button>
+          </div>
         </div>
       )}
     </div>
