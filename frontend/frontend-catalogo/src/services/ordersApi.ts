@@ -67,3 +67,20 @@ export async function getOrderById(id: number) {
 
   return res.json();
 }
+
+export async function simulatePayment(orderId: number) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/orders/${orderId}/pay`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao confirmar pagamento");
+  }
+
+  return response.json();
+}

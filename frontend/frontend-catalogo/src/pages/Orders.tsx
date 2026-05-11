@@ -19,6 +19,7 @@ type OrderItem = {
 type Order = {
   id: number;
   total?: number;
+  status?: "pending" | "paid" | string;
   created_at?: string;
   items?: OrderItem[];
 };
@@ -182,7 +183,15 @@ export default function Orders() {
               <div key={o.id} className="order-card">
                 <div className="order-cardTop">
                   <div className="order-id">Pedido #{o.id}</div>
-                  <span className="order-badge">Finalizado</span>
+                  <span
+                    className={
+                      o.status === "paid"
+                        ? "order-badge order-badge-paid"
+                        : "order-badge order-badge-pending"
+                    }
+                  >
+                    {o.status === "paid" ? "Pago" : "Pendente"}
+                  </span>
                 </div>
 
                 <div className="order-meta">

@@ -39,7 +39,7 @@ def on_startup():
     for i in range(10):
         try:
             models.Base.metadata.create_all(bind=engine)
-            print("✅ Banco OK e tabelas criadas/verificadas")
+            print(" Banco OK e tabelas criadas/verificadas")
             return
         except OperationalError as e:
             last_error = e
@@ -434,7 +434,7 @@ def create_order(
     if not cart or not cart.items:
         raise HTTPException(status_code=400, detail="Carrinho vazio")
 
-    # ✅ calcula total com segurança
+    #  calcula total com segurança
     total = 0.0
     for it in cart.items:
         if not it.product:
@@ -444,7 +444,7 @@ def create_order(
     order = models.Order(
         user_id=user.id,
         total=total,
-        status="paid",  # ou "pending" se quiser
+        status="pending",
 
         shipping_name=payload.shipping.name,
         shipping_phone=payload.shipping.phone,
@@ -460,7 +460,7 @@ def create_order(
     db.add(order)
     db.flush()  # garante order.id
 
-    # ✅ cria OrderItem preenchendo title e price (NOT NULL no seu model)
+    #  cria OrderItem preenchendo title e price (NOT NULL no seu model)
     for it in cart.items:
         p = it.product
         db.add(models.OrderItem(
@@ -472,7 +472,7 @@ def create_order(
             unit_price=float(p.price),
         ))
 
-    # ✅ limpa carrinho (pra virar "compra finalizada")
+    #  limpa carrinho (pra virar "compra finalizada")
     db.query(models.CartItem).filter(models.CartItem.cart_id == cart.id).delete()
 
     db.commit()
@@ -480,6 +480,35 @@ def create_order(
     return order
 
 
+
+@app.patch("/orders/{order_id}/pay", response_model=schemas.OrderResponse)
+def simulate_payment(
+    order_id: int,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    order = (
+        db.query(models.Order)
+        .options(joinedload(models.Order.items))
+        .filter(models.Order.id == order_id)
+        .first()
+    )
+
+    if not order:
+        raise HTTPException(status_code=404, detail="Pedido não encontrado")
+
+    if user.role == "cliente" and order.user_id != user.id:
+        raise HTTPException(status_code=403, detail="Sem permissão para pagar este pedido")
+
+    if order.status == "paid":
+        return order
+
+    order.status = "paid"
+
+    db.commit()
+    db.refresh(order)
+
+    return order
 
 
 @app.get("/orders/me", response_model=list[schemas.OrderResponse])
@@ -491,7 +520,7 @@ def list_my_orders(
     if user.role == "cliente":
         q = db.query(models.Order).filter(models.Order.user_id == user.id)
     else:
-        # admin/vendedor: pode listar todos se quiser (ou você pode restringir)
+        # admin/vendedor
         q = db.query(models.Order)
 
     orders = (
@@ -523,6 +552,8 @@ def get_order_by_id(
 
     # admin/vendedor pode ver qualquer
     return order
+
+
 
 
 
@@ -570,7 +601,7 @@ def admin_delete_user(
     if target.id == admin.id:
         raise HTTPException(status_code=400, detail="Você não pode excluir seu próprio usuário")
 
-    # ✅ 1) Apagar dependências do usuário (carrinho, itens, pedidos...)
+    #  1) Apagar dependências do usuário (carrinho, itens, pedidos...)
     # --- Carrinhos do usuário
     # Se existir CartItem:
     if hasattr(models, "CartItem"):
@@ -590,7 +621,7 @@ def admin_delete_user(
     if hasattr(models, "Order"):
         db.execute(delete(models.Order).where(models.Order.user_id == user_id))
 
-    # ✅ 2) Agora sim deletar o usuário
+    #  2) Agora sim deletar o usuário
     db.execute(delete(models.User).where(models.User.id == user_id))
     db.commit()
     return

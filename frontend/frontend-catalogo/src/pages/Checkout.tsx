@@ -81,7 +81,7 @@ export function Checkout() {
 
     setPlacing(true);
     try {
-      await createOrder({
+      const order = await createOrder({
         shipping: {
           name,
           phone,
@@ -97,10 +97,11 @@ export function Checkout() {
 
       Swal.fire(
         "Pedido criado!",
-        "Sua compra foi finalizada com sucesso.",
+        "Agora realize o pagamento para confirmar sua compra.",
         "success",
       );
-      navigate("/orders");
+
+      navigate(`/payment/${order.id}`);
     } catch (e: any) {
       Swal.fire("Erro", e?.message || "Erro ao finalizar compra", "error");
     } finally {

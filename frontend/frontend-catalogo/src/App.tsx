@@ -11,6 +11,7 @@ import { AdminUsers } from "./pages/AdminUsers";
 import { Checkout } from "./pages/Checkout";
 import Orders from "./pages/Orders";
 import { ProductDetails } from "./pages/ProductDetails";
+import { Payment } from "./pages/Payment";
 
 function DefaultAfterLogin() {
   const role = getRole();
@@ -121,6 +122,18 @@ export default function App() {
             <>
               <Header />
               <ProductDetails />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/payment/:id"
+        element={
+          <RoleRoute allow={["cliente", "admin"]}>
+            <>
+              <Header />
+              <Payment />
             </>
           </RoleRoute>
         }
