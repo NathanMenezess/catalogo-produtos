@@ -268,3 +268,13 @@
     width: 500px;
     max-width: 90%;
 }
+
+.danger {
+    background: #fff5f5;
+    color: #b42318;
+    border: 1px solid #f2b8b5;
+}
+
+.danger:hover {
+    background: #ffecec;
+}

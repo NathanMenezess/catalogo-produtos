@@ -41,8 +41,20 @@ export function Login() {
           <div className="login-fields">
             <input
               placeholder="E-mail"
+              type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              onChange={(e) =>
+                setEmail(
+                  e.target.value
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/\s/g, "")
+                    .toLowerCase(),
+                )
+              }
             />
 
             <input

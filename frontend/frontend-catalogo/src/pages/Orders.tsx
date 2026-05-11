@@ -310,7 +310,9 @@ export default function Orders() {
 
             <h3>Total: R$ {Number(selectedOrder.total || 0).toFixed(2)}</h3>
 
-            <button onClick={() => setSelectedOrder(null)}>Fechar</button>
+            <button className="danger" onClick={() => setSelectedOrder(null)}>
+              Fechar
+            </button>
           </div>
         </div>
       )}

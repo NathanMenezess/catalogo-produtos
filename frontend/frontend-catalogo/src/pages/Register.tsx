@@ -111,6 +111,9 @@ export function Register() {
               value={email}
               type="email"
               required
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               onChange={(e) =>
                 setEmail(
                   e.target.value
