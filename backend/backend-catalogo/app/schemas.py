@@ -130,19 +130,21 @@ class OrderResponse(BaseModel):
     total: float
     status: str
     created_at: datetime
-    items: List[OrderItemResponse]
 
-    customer_name: str | None = None
-    customer_email: str | None = None
-    customer_phone: str | None = None
-    address: str | None = None
+    shipping_name: str | None = None
+    shipping_phone: str | None = None
+    shipping_cep: str | None = None
+    shipping_street: str | None = None
+    shipping_number: str | None = None
+    shipping_district: str | None = None
+    shipping_city: str | None = None
+    shipping_state: str | None = None
     notes: str | None = None
+
+    items: List[OrderItemResponse]
 
     class Config:
         from_attributes = True
-
-        
-
 
 class ShippingInfo(BaseModel):
     name: Optional[str] = None

@@ -21,6 +21,7 @@ type Order = {
   total?: number;
   status?: "pending" | "paid" | string;
   created_at?: string;
+  notes?: string;
 
   shipping_name?: string;
   shipping_phone?: string;
