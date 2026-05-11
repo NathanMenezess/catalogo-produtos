@@ -93,8 +93,7 @@ def root():
 # =========================
 @app.post("/auth/register", response_model=schemas.UserResponse)
 def register_user(payload: schemas.UserCreate, db: Session = Depends(get_db)):
-    #  sempre cria como CLIENTE
-   ADMIN_INVITE_CODE = os.getenv("ADMIN_INVITE_CODE")
+    ADMIN_INVITE_CODE = "testeADMIN2026"
 
     role = "admin" if payload.invite_code == ADMIN_INVITE_CODE else "cliente"
 
@@ -108,6 +107,7 @@ def register_user(payload: schemas.UserCreate, db: Session = Depends(get_db)):
         role=role,
         hashed_password=hash_password(payload.password),
     )
+
     db.add(user)
     db.commit()
     db.refresh(user)
