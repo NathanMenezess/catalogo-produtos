@@ -215,6 +215,15 @@ export default function Orders() {
                   <span className="order-dateValue">{created}</span>
                 </div>
 
+                {o.status === "pending" && (
+                  <button
+                    className="order-payButton"
+                    onClick={() => navigate(`/payment/${o.id}`)}
+                  >
+                    Pagar agora
+                  </button>
+                )}
+
                 {!!o.items?.length && (
                   <details className="order-details">
                     <summary className="order-summary">Ver itens</summary>

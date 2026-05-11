@@ -209,3 +209,21 @@
     background: #d4edda;
     color: #155724;
 }
+
+.order-payButton {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #111;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.order-payButton:hover {
+    background: #333;
+    transform: translateY(-1px);
+}
