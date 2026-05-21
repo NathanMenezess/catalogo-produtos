@@ -13,6 +13,7 @@ import Orders from "./pages/Orders";
 import { ProductDetails } from "./pages/ProductDetails";
 import { Payment } from "./pages/Payment";
 import { Favorites } from "./pages/Favorites";
+import { ProductEdit } from "./pages/ProductEdit";
 import { ProductCreate } from "./pages/ProductCreate";
 
 function DefaultAfterLogin() {
@@ -112,6 +113,18 @@ export default function App() {
             <>
               <Header />
               <ProductCreate />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/admin/products/edit/:id"
+        element={
+          <RoleRoute allow={["admin", "vendedor"]}>
+            <>
+              <Header />
+              <ProductEdit />
             </>
           </RoleRoute>
         }
