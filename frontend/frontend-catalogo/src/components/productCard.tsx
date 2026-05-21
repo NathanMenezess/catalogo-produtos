@@ -67,6 +67,9 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
       <div className="card-content">
         <h3>{product.title}</h3>
         <p>{product.subtitle}</p>
+        {product.category && (
+          <span className="product-category">{product.category}</span>
+        )}
         <strong>R$ {product.price.toFixed(2)}</strong>
 
         <div className="actions">

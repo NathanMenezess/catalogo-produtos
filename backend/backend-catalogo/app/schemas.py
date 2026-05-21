@@ -24,6 +24,7 @@ class ProductResponse(BaseModel):
     price: float
     image_url: str
     description: str | None = None
+    category: Optional[str] = None
 
     class Config:
         from_attributes = True

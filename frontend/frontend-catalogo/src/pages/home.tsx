@@ -12,6 +12,8 @@ export function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [buscarCodigo, setBuscarCodigo] = useState<string>("");
 
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
@@ -73,7 +75,10 @@ export function Home() {
       .toLowerCase()
       .includes(buscarCodigo.toLowerCase());
 
-    return tituloMatch && codigoMatch;
+    const categoryMatch =
+      selectedCategory === "" || product.category === selectedCategory;
+
+    return tituloMatch && codigoMatch && categoryMatch;
   });
 
   return (
@@ -102,6 +107,21 @@ export function Home() {
             value={buscarCodigo}
             onChange={(e) => setBuscarCodigo(e.target.value)}
           />
+
+          <select
+            className="search-input"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Todas as categorias</option>
+            <option value="Eletrônicos">Eletrônicos</option>
+            <option value="Roupas">Roupas</option>
+            <option value="Tênis">Tênis</option>
+            <option value="Acessórios">Acessórios</option>
+            <option value="Games">Games</option>
+            <option value="Celulares">Celulares</option>
+            <option value="Informática">Informática</option>
+          </select>
         </div>
       </div>
 

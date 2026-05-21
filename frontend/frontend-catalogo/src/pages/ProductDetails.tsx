@@ -113,7 +113,9 @@ export function ProductDetails() {
 
         <div className="details-info">
           <span className="details-code">{product.subtitle}</span>
-
+          {product.category && (
+            <span className="details-category">{product.category}</span>
+          )}
           <h1>{product.title}</h1>
 
           <p className="details-description">

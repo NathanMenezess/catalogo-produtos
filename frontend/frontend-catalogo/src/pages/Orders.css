@@ -9,6 +9,7 @@
     align-items: flex-start;
     gap: 12px;
     flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .orders-back {

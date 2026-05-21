@@ -28,6 +28,7 @@ class Product(Base):
     image_url = Column(String, nullable=False)
     image_public_id = Column(String, nullable=True)
     description = Column(Text, nullable=True)
+    category = Column(String, nullable=True)
 
 
 # =========================

@@ -32,6 +32,7 @@ export function ProductForm({
   const [description, setDescription] = useState("");
 
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
     if (editingProduct) {
@@ -40,12 +41,14 @@ export function ProductForm({
       setPrice(editingProduct.price.toString());
       setPreview(editingProduct.image_url);
       setDescription(editingProduct.description || "");
+      setCategory(editingProduct.category || "");
       setImage(null);
     } else {
       setTitle("");
       setSubtitle("");
       setPrice("");
       setDescription("");
+      setCategory("");
       setImage(null);
       setPreview(null);
 
@@ -72,6 +75,7 @@ export function ProductForm({
     formData.append("subtitle", subtitle);
     formData.append("price", price);
     formData.append("description", description);
+    formData.append("category", category);
     if (image) {
       formData.append("image", image);
     }
@@ -153,6 +157,22 @@ export function ProductForm({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          required
+        >
+          <option value="">Selecione uma categoria</option>
+
+          <option value="Eletrônicos">Eletrônicos</option>
+          <option value="Roupas">Roupas</option>
+          <option value="Tênis">Tênis</option>
+          <option value="Acessórios">Acessórios</option>
+          <option value="Games">Games</option>
+          <option value="Celulares">Celulares</option>
+          <option value="Informática">Informática</option>
+        </select>
 
         <input
           ref={fileRef}

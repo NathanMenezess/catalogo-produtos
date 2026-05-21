@@ -106,3 +106,19 @@ button:disabled {
 .form textarea {
     max-height: 220px;
 }
+
+.form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: #fff;
+    outline: none;
+}
+
+.form select:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+}
