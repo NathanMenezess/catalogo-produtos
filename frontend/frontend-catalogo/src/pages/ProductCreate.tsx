@@ -7,7 +7,7 @@ import "./home.css";
 export function ProductCreate() {
   const navigate = useNavigate();
 
-  function handleAdd(product: Product) {
+  function handleAdd(_: Product) {
     Swal.fire({
       title: "Sucesso!",
       text: "Produto cadastrado com sucesso.",
