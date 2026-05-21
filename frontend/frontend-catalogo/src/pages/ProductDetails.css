@@ -104,6 +104,7 @@
     font-size: 15px;
     font-weight: 800;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
 .details-favorite.active {

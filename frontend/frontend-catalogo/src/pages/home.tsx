@@ -1,19 +1,23 @@
 import Swal from "sweetalert2";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./home.css";
 import { ProductCard } from "../components/productCard";
-import { ProductForm } from "../components/productForm";
 import type { Product } from "../types/Product";
 import * as Service from "../services/api";
+import { getRole } from "../services/authStorage";
 
 export function Home() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>(""); 
-  const [buscarCodigo, setBuscarCodigo] = useState<string>(""); 
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [buscarCodigo, setBuscarCodigo] = useState<string>("");
 
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  const navigate = useNavigate();
+  const role = getRole();
+  const canManage = role === "admin" || role === "vendedor";
 
   useEffect(() => {
     Service.getProducts()
@@ -22,17 +26,6 @@ export function Home() {
       .finally(() => setLoading(false));
   }, []);
 
-  function handleAdd(product: Product) {
-    setProducts((prev) => [...prev, product]);
-
-    Swal.fire({
-      title: "Sucesso!",
-      text: "Produto cadastrado com sucesso.",
-      icon: "success",
-      timer: 2000,
-      showConfirmButton: false,
-    });
-  }
   function handleDelete(id: number) {
     Swal.fire({
       title: "Tem certeza?",
@@ -71,20 +64,6 @@ export function Home() {
     });
   }
 
-  function handleUpdate(updated: Product) {
-    setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
-
-    setEditingProduct(null);
-
-    Swal.fire({
-      title: "Atualizado!",
-      text: "Produto atualizado com sucesso.",
-      icon: "success",
-      timer: 2000,
-      showConfirmButton: false,
-    });
-  }
-
   const filteredProducts = products.filter((product) => {
     const tituloMatch = product.title
       .toLowerCase()
@@ -97,27 +76,8 @@ export function Home() {
     return tituloMatch && codigoMatch;
   });
 
-  const formRef = useRef<HTMLDivElement | null>(null);
-
-  function handleEdit(product: Product) {
-    setEditingProduct(product);
-
-    setTimeout(() => {
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 50);
-  }
-
   return (
     <div className="container">
-      <div ref={formRef} className="form-area">
-        <ProductForm
-          onAdd={handleAdd}
-          onUpdate={handleUpdate}
-          editingProduct={editingProduct}
-          onCancelEdit={() => setEditingProduct(null)}
-        />
-      </div>
-
       <div className="page-head">
         <div>
           <h2>Produtos</h2>
@@ -162,12 +122,22 @@ export function Home() {
             <ProductCard
               key={product.id}
               product={product}
-              onEdit={() => handleEdit(product)}
+              onEdit={() => navigate(`/admin/products/edit/${product.id}`)}
               onDelete={() => handleDelete(product.id)}
               deleting={deletingId === product.id}
             />
           ))}
         </div>
+      )}
+
+      {canManage && (
+        <button
+          className="floating-add-button"
+          onClick={() => navigate("/admin/products/new")}
+          title="Adicionar produto"
+        >
+          +
+        </button>
       )}
     </div>
   );

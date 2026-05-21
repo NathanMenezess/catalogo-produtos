@@ -152,3 +152,36 @@
     color: #666;
     font-size: 15px;
 }
+
+.floating-add-button {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: none;
+    background: #111827;
+    color: #fff;
+    font-size: 34px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+    z-index: 50;
+    transition: 0.18s ease;
+}
+
+.floating-add-button:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: #000;
+}
+
+@media (max-width: 520px) {
+    .floating-add-button {
+        right: 18px;
+        bottom: 18px;
+        width: 54px;
+        height: 54px;
+        font-size: 30px;
+    }
+}
