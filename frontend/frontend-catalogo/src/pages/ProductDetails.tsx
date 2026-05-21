@@ -156,7 +156,7 @@ export function ProductDetails() {
             <div className="details-admin-actions">
               <button
                 className="details-edit-button"
-                onClick={() => navigate(`/admin/products?edit=${product.id}`)}
+                onClick={() => navigate(`/admin/products/edit/${product.id}`)}
               >
                 Editar produto
               </button>
