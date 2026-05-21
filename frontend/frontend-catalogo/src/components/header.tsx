@@ -114,6 +114,17 @@ export function Header() {
                 </button>
               )}
 
+              {isClienteOuAdmin && (
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    navigate("/favorites");
+                  }}
+                >
+                  Favoritos
+                </button>
+              )}
+
               {isAdmin && (
                 <button
                   onClick={() => {
