@@ -92,3 +92,63 @@
 .orders-back:hover {
     background: #f6f6f6;
 }
+
+.details-favorite {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 14px;
+    border: 0;
+    border-radius: 12px;
+    background: #fff0f3;
+    color: #c9184a;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.details-favorite.active {
+    background: #c9184a;
+    color: #fff;
+}
+
+.details-favorite:hover {
+    filter: brightness(0.97);
+}
+
+.details-favorite:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.details-admin-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.details-edit-button,
+.details-delete-button {
+    flex: 1;
+    padding: 12px 14px;
+    border: 0;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.details-edit-button {
+    background: #1976d2;
+    color: #fff;
+}
+
+.details-delete-button {
+    background: #fff5f5;
+    color: #b42318;
+    border: 1px solid #f2b8b5;
+}
+
+.details-delete-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
