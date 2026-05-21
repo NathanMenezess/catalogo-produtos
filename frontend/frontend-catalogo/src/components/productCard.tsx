@@ -1,8 +1,14 @@
+import { useEffect, useState } from "react";
 import type { Product } from "../types/Product";
 import "./productCard.css";
 import { addToCart } from "../services/cartApi";
 import { getRole } from "../services/authStorage";
 import { useNavigate } from "react-router-dom";
+import {
+  addFavorite,
+  getFavorites,
+  removeFavorite,
+} from "../services/favoritesApi";
 
 interface Props {
   product: Product;
@@ -17,6 +23,42 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
   const isAdmin = role === "admin";
   const canManage = role === "admin" || role === "vendedor";
   const navigate = useNavigate();
+
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isCliente && !isAdmin) return;
+
+    getFavorites()
+      .then((favorites) => {
+        const exists = favorites.some((fav) => fav.product_id === product.id);
+        setIsFavorited(exists);
+      })
+      .catch(() => {
+        setIsFavorited(false);
+      });
+  }, [product.id, isCliente, isAdmin]);
+
+  async function handleFavorite(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
+
+    try {
+      setFavoriteLoading(true);
+
+      if (isFavorited) {
+        await removeFavorite(product.id);
+        setIsFavorited(false);
+      } else {
+        await addFavorite(product.id);
+        setIsFavorited(true);
+      }
+    } catch (error) {
+      alert("Erro ao atualizar favorito");
+    } finally {
+      setFavoriteLoading(false);
+    }
+  }
 
   return (
     <div className="card" onClick={() => navigate(`/products/${product.id}`)}>
@@ -39,6 +81,7 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
               >
                 Editar
               </button>
+
               <button
                 className="danger"
                 onClick={(e) => {
@@ -54,15 +97,29 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
         </div>
 
         {(isCliente || isAdmin) && (
-          <button
-            className="addCart"
-            onClick={(e) => {
-              e.stopPropagation();
-              addToCart(product.id, 1);
-            }}
-          >
-            Adicionar ao carrinho
-          </button>
+          <>
+            <button
+              className={isFavorited ? "favorite active" : "favorite"}
+              onClick={handleFavorite}
+              disabled={favoriteLoading}
+            >
+              {favoriteLoading
+                ? "Carregando..."
+                : isFavorited
+                  ? "❤️ Favoritado"
+                  : "🤍 Favoritar"}
+            </button>
+
+            <button
+              className="addCart"
+              onClick={(e) => {
+                e.stopPropagation();
+                addToCart(product.id, 1);
+              }}
+            >
+              Adicionar ao carrinho
+            </button>
+          </>
         )}
       </div>
     </div>

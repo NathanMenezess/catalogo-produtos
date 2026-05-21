@@ -163,3 +163,30 @@
         border-radius: 10px;
     }
 }
+
+.favorite {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 12px;
+    background: #fff0f3;
+    color: #c9184a;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.favorite.active {
+    background: #c9184a;
+    color: #fff;
+}
+
+.favorite:hover {
+    filter: brightness(0.97);
+}
+
+.favorite:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
