@@ -175,6 +175,8 @@ def delete_product(
 
     # remove o produto de todos os carrinhos
     db.query(models.CartItem).filter(models.CartItem.product_id == product_id).delete()
+    db.query(models.Favorite).filter(models.Favorite.product_id == product_id).delete()
+
     db.commit()
 
     # remove imagem
@@ -227,6 +229,84 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Produto não encontrado")
 
     return product
+
+
+# =========================
+# Favorites
+# =========================
+
+@app.get("/favorites", response_model=list[schemas.FavoriteResponse])
+def list_favorites(
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    return (
+        db.query(models.Favorite)
+        .options(joinedload(models.Favorite.product))
+        .filter(models.Favorite.user_id == user.id)
+        .order_by(models.Favorite.created_at.desc())
+        .all()
+    )
+
+
+@app.post("/favorites/{product_id}", response_model=schemas.FavoriteResponse)
+def add_favorite(
+    product_id: int,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+    favorite = (
+        db.query(models.Favorite)
+        .filter(
+            models.Favorite.user_id == user.id,
+            models.Favorite.product_id == product_id,
+        )
+        .first()
+    )
+
+    if favorite:
+        return favorite
+
+    favorite = models.Favorite(
+        user_id=user.id,
+        product_id=product_id,
+    )
+
+    db.add(favorite)
+    db.commit()
+    db.refresh(favorite)
+
+    return favorite
+
+
+@app.delete("/favorites/{product_id}")
+def remove_favorite(
+    product_id: int,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    favorite = (
+        db.query(models.Favorite)
+        .filter(
+            models.Favorite.user_id == user.id,
+            models.Favorite.product_id == product_id,
+        )
+        .first()
+    )
+
+    if not favorite:
+        raise HTTPException(status_code=404, detail="Favorito não encontrado")
+
+    db.delete(favorite)
+    db.commit()
+
+    return {"message": "Produto removido dos favoritos"}
+
 
 # =========================
 # Cart helpers

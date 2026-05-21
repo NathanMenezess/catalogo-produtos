@@ -29,6 +29,15 @@ class ProductResponse(BaseModel):
         from_attributes = True
 
 
+class FavoriteResponse(BaseModel):
+    id: int
+    user_id: int
+    product_id: int
+    product: ProductResponse
+
+    class Config:
+        from_attributes = True
+
 # =========================
 # Users / Auth
 # =========================
@@ -75,6 +84,8 @@ class TokenResponse(BaseModel):
 
 class MeResponse(UserResponse):
     pass
+
+
 
 
 # =========================
