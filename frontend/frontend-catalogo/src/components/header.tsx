@@ -75,7 +75,7 @@ export function Header() {
 
         <div className="header-right">
           {/*  Carrinho só para cliente */}
-          {isClienteOuAdmin && (
+          {isClienteOuAdmin || isAdminOrVendedor && (
             <button className="cart-btn" onClick={() => setCartOpen(true)}>
               🛒 Carrinho
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
