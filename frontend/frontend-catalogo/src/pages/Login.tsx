@@ -6,6 +6,7 @@ import "./Login.css";
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,12 +58,22 @@ export function Login() {
               }
             />
 
-            <input
-              placeholder="Senha"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="password-field">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword((v) => !v)}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
 
             <button disabled={loading} type="submit">
               {loading ? "Entrando..." : "Entrar"}

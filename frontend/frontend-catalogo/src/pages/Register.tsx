@@ -44,6 +44,8 @@ export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const [inviteCode, setInviteCode] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -125,19 +127,28 @@ export function Register() {
               }
             />
 
-            <input
+           <div className="password-field">
+  <input
+    type={showPassword ? "text" : "password"}
               placeholder="Senha"
               required
-              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <small className="password-rules">
-              A senha deve conter:
-              <br />
-              • mínimo 8 caracteres
-              <br />
-              • uma letra maiúscula
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowPassword((v) => !v)}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+          <small className="password-rules">
+            A senha deve conter:
+            <br />
+            • mínimo 8 caracteres
+            <br />
+            • uma letra maiúscula
               <br />
               • um número
               <br />• um caractere especial

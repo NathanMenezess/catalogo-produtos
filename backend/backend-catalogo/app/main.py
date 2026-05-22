@@ -504,6 +504,32 @@ def clear_cart(
     return cart_to_response(cart)
 
 
+
+@app.get("/users/customers", response_model=List[schemas.UserListItem])
+def list_customers(
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    return (
+        db.query(models.User)
+        .filter(models.User.role == "cliente")
+        .order_by(models.User.name.asc())
+        .all()
+    )
+
+
+@app.get("/users/sellers", response_model=List[schemas.UserListItem])
+def list_sellers(
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    return (
+        db.query(models.User)
+        .filter(models.User.role == "vendedor")
+        .order_by(models.User.name.asc())
+        .all()
+    )
+
 # =========================
 # Orders (Pedidos)
 # =========================
@@ -527,6 +553,10 @@ def create_order(
 
     order = models.Order(
         user_id=user.id,
+
+        customer_id=payload.customer_id,
+        seller_id=payload.seller_id,
+
         total=total,
         status="pending",
 

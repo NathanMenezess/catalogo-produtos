@@ -171,3 +171,5 @@ class ShippingInfo(BaseModel):
 class CheckoutPayload(BaseModel):
     shipping: ShippingInfo
     notes: Optional[str] = None
+    customer_id: Optional[int] = None
+    seller_id: Optional[int] = None

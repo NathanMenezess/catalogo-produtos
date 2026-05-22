@@ -5,10 +5,25 @@ import { getCart } from "../services/cartApi";
 import { createOrder } from "../services/ordersApi";
 import "./Checkout.css";
 
+import { getRole } from "../services/authStorage";
+import {
+  getCustomers,
+  getSellers,
+  type UserOption,
+} from "../services/usersApi";
+
 export function Checkout() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState<any>(null);
+
+  const role = getRole();
+
+  const [customers, setCustomers] = useState<UserOption[]>([]);
+  const [sellers, setSellers] = useState<UserOption[]>([]);
+
+  const [customerId, setCustomerId] = useState("");
+  const [sellerId, setSellerId] = useState("");
 
   // Campos do checkout
   const [name, setName] = useState("");
@@ -73,15 +88,40 @@ export function Checkout() {
     })();
   }, [navigate]);
 
+  useEffect(() => {
+    if (role === "vendedor" || role === "admin") {
+      getCustomers().then(setCustomers).catch(console.error);
+    }
+
+    if (role === "cliente" || role === "admin") {
+      getSellers().then(setSellers).catch(console.error);
+    }
+  }, [role]);
+
   async function onConfirm() {
-    if (!street || !number || !district || !city || !stateUF || !cep) {
-      Swal.fire("Faltando dados", "Preencha o endereço completo.", "warning");
+    if (
+      !name ||
+      !phone ||
+      !cep ||
+      !street ||
+      !number ||
+      !district ||
+      !city ||
+      !stateUF
+    ) {
+      Swal.fire(
+        "Faltando dados",
+        "Preencha todos os campos obrigatórios do checkout.",
+        "warning",
+      );
       return;
     }
 
     setPlacing(true);
     try {
       const order = await createOrder({
+        customer_id: customerId ? Number(customerId) : null,
+        seller_id: sellerId ? Number(sellerId) : null,
         shipping: {
           name,
           phone,
@@ -134,28 +174,62 @@ export function Checkout() {
 
       <div className="checkout-grid">
         <div className="checkout-card">
+          <h3 className="checkout-sectionTitle">Dados da venda</h3>
+
+          {(role === "vendedor" || role === "admin") && (
+            <select
+              className="checkout-input"
+              value={customerId}
+              onChange={(e) => setCustomerId(e.target.value)}
+            >
+              <option value="">Cliente relacionado (opcional)</option>
+              {customers.map((customer) => (
+                <option key={customer.id} value={customer.id}>
+                  {customer.name} - {customer.email}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {(role === "cliente" || role === "admin") && (
+            <select
+              className="checkout-input"
+              value={sellerId}
+              onChange={(e) => setSellerId(e.target.value)}
+            >
+              <option value="">Vendedor relacionado (opcional)</option>
+              {sellers.map((seller) => (
+                <option key={seller.id} value={seller.id}>
+                  {seller.name} - {seller.email}
+                </option>
+              ))}
+            </select>
+          )}
+
           <h3 className="checkout-sectionTitle">Endereço de entrega</h3>
 
           <div className="checkout-row2">
             <input
               className="checkout-input"
-              placeholder="Nome (opcional)"
+              placeholder="Nome completo *"
               value={name}
+              required
               onChange={(e) => setName(e.target.value)}
             />
             <input
               className="checkout-input"
-              placeholder="Telefone (opcional)"
+              placeholder="Telefone *"
               value={phone}
+              required
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
 
           <div className="checkout-row2">
             <input
-              className="checkout-input"
+              className="checkout-input checkout-cep-input"
               type="text"
-              placeholder="CEP"
+              placeholder="Digite o CEP para preencher o endereço *"
               value={cep}
               maxLength={9}
               onChange={(e) => {
@@ -175,8 +249,9 @@ export function Checkout() {
             <input
               className="checkout-input"
               type="text"
-              placeholder="Estado"
+              placeholder="Estado *"
               value={stateUF}
+              required
               onChange={(e) => setStateUF(e.target.value)}
             />
           </div>
@@ -184,22 +259,25 @@ export function Checkout() {
           <input
             className="checkout-input"
             type="text"
-            placeholder="Rua / Avenida"
+            placeholder="Rua / Avenida *"
             value={street}
+            required
             onChange={(e) => setStreet(e.target.value)}
           />
 
           <div className="checkout-row2">
             <input
               className="checkout-input"
-              placeholder="Número"
+              placeholder="Número *"
               value={number}
+              required
               onChange={(e) => setNumber(e.target.value)}
             />
             <input
               className="checkout-input"
               type="text"
-              placeholder="Bairro"
+              placeholder="Bairro *"
+              required
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
             />
@@ -209,7 +287,8 @@ export function Checkout() {
             <input
               className="checkout-input"
               type="text"
-              placeholder="Cidade"
+              placeholder="Cidade *"
+              required
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
