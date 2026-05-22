@@ -11,9 +11,10 @@ export function Header() {
   const [cartCount, setCartCount] = useState<number>(() => getCartCount());
 
   const role = getRole();
-  const isAdmin = role === "admin";
   const isCliente = role === "cliente";
+  const isAdmin = role === "admin";
   const isVendedor = role === "vendedor";
+
   const canBuy = isCliente || isAdmin || isVendedor;
   const isAdminOrVendedor = role === "admin" || role === "vendedor";
 
@@ -54,7 +55,7 @@ export function Header() {
     }
 
     return () => window.removeEventListener("cart:changed", onCartChanged);
-  }, [isCliente]);
+  }, [canBuy]);
 
   return (
     <>
@@ -76,15 +77,12 @@ export function Header() {
 
         <div className="header-right">
           {/*  Carrinho só para cliente */}
-          {canBuy ||
-            (isAdminOrVendedor && (
-              <button className="cart-btn" onClick={() => setCartOpen(true)}>
-                🛒 Carrinho
-                {cartCount > 0 && (
-                  <span className="cart-badge">{cartCount}</span>
-                )}
-              </button>
-            ))}
+          {canBuy && (
+            <button className="cart-btn" onClick={() => setCartOpen(true)}>
+              🛒 Carrinho
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </button>
+          )}
 
           {/* Menu Perfil */}
           <div className="profile-wrapper" ref={menuRef}>

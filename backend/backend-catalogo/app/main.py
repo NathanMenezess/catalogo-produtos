@@ -600,11 +600,11 @@ def list_my_orders(
     db: Session = Depends(get_db),
     user: models.User = Depends(get_current_user),
 ):
-    # cliente vê só os dele
-    if user.role == "cliente":
+    # cliente e vendedor veem só os próprios pedidos
+    if user.role in {"cliente", "vendedor"}:
         q = db.query(models.Order).filter(models.Order.user_id == user.id)
     else:
-        # admin/vendedor
+        # admin vê todos os pedidos
         q = db.query(models.Order)
 
     orders = (
