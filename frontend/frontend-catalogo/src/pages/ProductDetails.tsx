@@ -18,6 +18,8 @@ export function ProductDetails() {
   const role = getRole();
   const isCliente = role === "cliente";
   const isAdmin = role === "admin";
+  const isVendedor = role === "vendedor";
+  const canBuy = isCliente || isAdmin || isVendedor;
   const canManage = role === "admin" || role === "vendedor";
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -37,7 +39,7 @@ export function ProductDetails() {
 
   useEffect(() => {
     if (!id) return;
-    if (!isCliente && !isAdmin) return;
+    if (!canBuy) return;
 
     getFavorites()
       .then((favorites) => {
@@ -45,7 +47,7 @@ export function ProductDetails() {
         setIsFavorited(exists);
       })
       .catch(() => setIsFavorited(false));
-  }, [id, isCliente, isAdmin]);
+  }, [id, canBuy]);
 
   async function handleFavorite() {
     if (!product) return;
@@ -127,7 +129,7 @@ export function ProductDetails() {
             R$ {product.price.toFixed(2)}
           </strong>
 
-          {(isCliente || isAdmin) && (
+          {canBuy && (
             <>
               <button
                 className={

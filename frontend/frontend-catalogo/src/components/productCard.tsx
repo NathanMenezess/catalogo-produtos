@@ -21,6 +21,8 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
   const role = getRole();
   const isCliente = role === "cliente";
   const isAdmin = role === "admin";
+  const isVendedor = role === "vendedor";
+  const canBuy = isCliente || isAdmin || isVendedor;
   const canManage = role === "admin" || role === "vendedor";
   const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
   const [favoriteLoading, setFavoriteLoading] = useState(false);
 
   useEffect(() => {
-    if (!isCliente && !isAdmin) return;
+    if (!canBuy) return;
 
     getFavorites()
       .then((favorites) => {
@@ -38,7 +40,7 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
       .catch(() => {
         setIsFavorited(false);
       });
-  }, [product.id, isCliente, isAdmin]);
+  }, [product.id, canBuy]);
 
   async function handleFavorite(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
@@ -99,7 +101,7 @@ export function ProductCard({ product, onEdit, onDelete, deleting }: Props) {
           )}
         </div>
 
-        {(isCliente || isAdmin) && (
+        {canBuy && (
           <>
             <button
               className={isFavorited ? "favorite active" : "favorite"}

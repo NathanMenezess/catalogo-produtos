@@ -48,7 +48,7 @@ export default function App() {
       <Route
         path="/home"
         element={
-          <RoleRoute allow={["cliente", "admin"]}>
+          <RoleRoute allow={["cliente", "admin", "vendedor"]}>
             <>
               <Header />
               <Home />
@@ -60,7 +60,7 @@ export default function App() {
       <Route
         path="/orders"
         element={
-          <RoleRoute allow={["cliente", "admin"]}>
+          <RoleRoute allow={["cliente", "admin", "vendedor"]}>
             <>
               <Header />
               <Orders />
@@ -72,7 +72,7 @@ export default function App() {
       <Route
         path="/favorites"
         element={
-          <RoleRoute allow={["cliente", "admin"]}>
+          <RoleRoute allow={["cliente", "admin", "vendedor"]}>
             <>
               <Header />
               <Favorites />
@@ -145,7 +145,7 @@ export default function App() {
       <Route
         path="/checkout"
         element={
-          <RoleRoute allow={["cliente", "admin"]}>
+          <RoleRoute allow={["cliente", "admin", "vendedor"]}>
             <>
               <Header />
               <Checkout />
@@ -169,7 +169,7 @@ export default function App() {
       <Route
         path="/payment/:id"
         element={
-          <RoleRoute allow={["cliente", "admin"]}>
+          <RoleRoute allow={["cliente", "admin", "vendedor"]}>
             <>
               <Header />
               <Payment />

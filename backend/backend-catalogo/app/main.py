@@ -316,8 +316,8 @@ def remove_favorite(
 # Cart helpers
 # =========================
 def require_cliente(user: models.User = Depends(get_current_user)):
-    if user.role not in {"cliente", "admin"}:
-        raise HTTPException(status_code=403, detail="Apenas cliente ou admin pode usar carrinho")
+    if user.role not in {"cliente", "admin", "vendedor"}:
+        raise HTTPException(status_code=403, detail="Sem permissão para usar carrinho")
     return user
 
 

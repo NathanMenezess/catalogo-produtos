@@ -13,7 +13,8 @@ export function Header() {
   const role = getRole();
   const isAdmin = role === "admin";
   const isCliente = role === "cliente";
-  const isClienteOuAdmin = isCliente || isAdmin;
+  const isVendedor = role === "vendedor";
+  const canBuy = isCliente || isAdmin || isVendedor;
   const isAdminOrVendedor = role === "admin" || role === "vendedor";
 
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export function Header() {
     window.addEventListener("cart:changed", onCartChanged);
 
     // se for cliente, busca do servidor ao carregar (pra ficar correto no refresh)
-    if (isCliente) {
+    if (canBuy) {
       getCart().catch(() => {});
     }
 
@@ -75,12 +76,15 @@ export function Header() {
 
         <div className="header-right">
           {/*  Carrinho só para cliente */}
-          {isClienteOuAdmin || isAdminOrVendedor && (
-            <button className="cart-btn" onClick={() => setCartOpen(true)}>
-              🛒 Carrinho
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-            </button>
-          )}
+          {canBuy ||
+            (isAdminOrVendedor && (
+              <button className="cart-btn" onClick={() => setCartOpen(true)}>
+                🛒 Carrinho
+                {cartCount > 0 && (
+                  <span className="cart-badge">{cartCount}</span>
+                )}
+              </button>
+            ))}
 
           {/* Menu Perfil */}
           <div className="profile-wrapper" ref={menuRef}>
@@ -103,7 +107,7 @@ export function Header() {
               </button>
 
               {/* Meus pedidos só para cliente */}
-              {isClienteOuAdmin && (
+              {canBuy && (
                 <button
                   onClick={() => {
                     setMenuOpen(false);
@@ -114,7 +118,7 @@ export function Header() {
                 </button>
               )}
 
-              {isClienteOuAdmin && (
+              {canBuy && (
                 <button
                   onClick={() => {
                     setMenuOpen(false);
@@ -144,7 +148,7 @@ export function Header() {
         </div>
       </header>
 
-      {isClienteOuAdmin && (
+      {canBuy && (
         <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       )}
     </>
