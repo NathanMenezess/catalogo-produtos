@@ -51,9 +51,11 @@ Uma plataforma dinâmica que concede ao administrador o controle integral sobre 
 
 </div>
 
-## Cronograma e Status
+### Cronograma e Status
 
 * **Fase 1 (Concluída):** Planejamento, Design e Estrutura Base.
 * **Fase 2 (Concluída):** Desenvolvimento do fluxo operacional.
-* **Fase 3 (Em andamento):** Gestão de Níveis de Acesso.
+* **Fase 3 (Concluída):** Gestão de Níveis de Acesso.
+* **Fase 4 (Em andamento):** Desenvolvimento Final.
+* **PROVA (Em andamento):** Modelagem do Sistema (Diagrama de Classes, Caso de Uso e Vídeo Explicativo).
 
