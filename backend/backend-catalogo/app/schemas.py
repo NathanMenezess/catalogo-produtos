@@ -153,6 +153,14 @@ class OrderResponse(BaseModel):
     shipping_state: str | None = None
     notes: str | None = None
 
+    customer_id: Optional[int] = None
+    seller_id: Optional[int] = None
+    
+    customer_name: Optional[str] = None
+    customer_email: Optional[str] = None
+    seller_name: Optional[str] = None
+    seller_email: Optional[str] = None
+    
     items: List[OrderItemResponse]
 
     class Config:

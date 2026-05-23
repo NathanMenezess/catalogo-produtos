@@ -638,9 +638,13 @@ def list_my_orders(
         q = db.query(models.Order)
 
     orders = (
-        q.options(joinedload(models.Order.items))
-        .order_by(models.Order.created_at.desc())
-        .all()
+       q.options(
+        joinedload(models.Order.items),
+        joinedload(models.Order.customer),
+        joinedload(models.Order.seller),
+    )
+    .order_by(models.Order.created_at.desc())
+       .all()
     )
     return orders
 
@@ -652,10 +656,14 @@ def get_order_by_id(
     user: models.User = Depends(get_current_user),
 ):
     order = (
-        db.query(models.Order)
-        .options(joinedload(models.Order.items))
-        .filter(models.Order.id == order_id)
-        .first()
+    db.query(models.Order)
+    .options(
+        joinedload(models.Order.items),
+        joinedload(models.Order.customer),
+        joinedload(models.Order.seller),
+    )
+    .filter(models.Order.id == order_id)
+    .first()
     )
     if not order:
         raise HTTPException(status_code=404, detail="Pedido não encontrado")

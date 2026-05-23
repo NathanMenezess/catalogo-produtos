@@ -32,6 +32,13 @@ type Order = {
   shipping_city?: string;
   shipping_state?: string;
 
+  customer_id?: number | null;
+  seller_id?: number | null;
+  customer_name?: string | null;
+  customer_email?: string | null;
+  seller_name?: string | null;
+  seller_email?: string | null;
+
   items?: OrderItem[];
 };
 
@@ -280,6 +287,20 @@ export default function Orders() {
               <strong>Telefone:</strong>{" "}
               {selectedOrder.shipping_phone || "Não informado"}
             </p>
+
+            {selectedOrder.customer_name && (
+              <p>
+                <strong>Cliente relacionado:</strong>{" "}
+                {selectedOrder.customer_name} - {selectedOrder.customer_email}
+              </p>
+            )}
+
+            {selectedOrder.seller_name && (
+              <p>
+                <strong>Vendedor relacionado:</strong>{" "}
+                {selectedOrder.seller_name} - {selectedOrder.seller_email}
+              </p>
+            )}
 
             <p>
               <strong>Endereço:</strong>{" "}
