@@ -176,6 +176,22 @@ class Order(Base):
         cascade="all, delete-orphan"
     )
 
+    @property
+    def customer_name(self):
+        return self.customer.name if self.customer else None
+
+    @property
+    def customer_email(self):
+        return self.customer.email if self.customer else None
+
+    @property
+    def seller_name(self):
+        return self.seller.name if self.seller else None
+
+    @property
+    def seller_email(self):
+        return self.seller.email if self.seller else None
+
 
 class OrderItem(Base):
     __tablename__ = "order_items"
