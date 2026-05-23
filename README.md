@@ -27,22 +27,17 @@ Uma plataforma dinâmica que concede ao administrador o controle integral sobre 
 ## Aspectos Técnicos
 
 * **Stack Tecnológica**
-<div align="left">
-  
-  <img src="https://cdn.simpleicons.org/typescript/3178C6" height="40" alt="typescript logo" />
-  <img width="12" />
-  <img src="https://cdn.simpleicons.org/react/61DAFB" height="40" alt="react logo" />
-  <img width="12" />
-  <img src="https://cdn.simpleicons.org/vite/646CFF" height="40" alt="vite logo" />
-  <img width="12" />
-  <img src="https://cdn.simpleicons.org/python/3776AB" height="40" alt="python logo" />
-  <img width="12" />
-  <img src="https://cdn.simpleicons.org/postgresql/4169E1" height="40" alt="postgresql logo" />
-  <img width="12" />
-  <img src="https://cdn.simpleicons.org/supabase/3ECF8E" height="40" alt="supabase logo" />
-  <img width="12" />
-  <img src="https://cdn.simpleicons.org/vercel/000000" height="40" alt="vercel logo" />
+
+<div align="left" style="display: flex; gap: 12px; align-items: center;">
+  <a href="https://www.typescriptlang.org/download/" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/typescript/3178C6" height="40" alt="TypeScript" /></a>
+  <a href="https://react.dev/learn/installation" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/react/61DAFB" height="40" alt="React" /></a>
+  <a href="https://vite.dev/guide/" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/vite/646CFF" height="40" alt="Vite" /></a>
+  <a href="https://www.python.org/downloads/" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/python/3776AB" height="40" alt="Python" /></a>
+  <a href="https://www.postgresql.org/download/" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/postgresql/4169E1" height="40" alt="PostgreSQL" /></a>
+  <a href="https://supabase.com/dashboard" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/supabase/3ECF8E" height="40" alt="Supabase" /></a>
+  <a href="https://vercel.com/docs/cli" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/vercel/000000" height="40" alt="Vercel CLI" /></a>
 </div>
+
 <br />
 
 * **Requisitos Funcionais**
