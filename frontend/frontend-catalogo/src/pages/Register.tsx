@@ -127,28 +127,28 @@ export function Register() {
               }
             />
 
-           <div className="password-field">
-  <input
-    type={showPassword ? "text" : "password"}
-              placeholder="Senha"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              type="button"
-              className="toggle-password"
-              onClick={() => setShowPassword((v) => !v)}
-            >
-              {showPassword ? "🙈" : "👁️"}
-            </button>
-          </div>
-          <small className="password-rules">
-            A senha deve conter:
-            <br />
-            • mínimo 8 caracteres
-            <br />
-            • uma letra maiúscula
+            <div className="password-field">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Senha"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword((v) => !v)}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
+            <small className="password-rules">
+              A senha deve conter:
+              <br />
+              • mínimo 8 caracteres
+              <br />
+              • uma letra maiúscula
               <br />
               • um número
               <br />• um caractere especial

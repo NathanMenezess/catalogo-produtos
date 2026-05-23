@@ -49,8 +49,8 @@
 
 /* Botão */
 .login-fields button {
-    margin-top: 6px;
-    padding: 12px;
+    margin-top: 0px;
+    padding: 10px;
     border-radius: 10px;
     border: none;
     background: #ec407a;
@@ -123,9 +123,8 @@
 
 .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 0px;
     top: 50%;
-    transform: translateY(-50%);
 
     border: none;
     background: transparent;

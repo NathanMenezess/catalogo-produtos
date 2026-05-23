@@ -51,8 +51,7 @@
 }
 
 .register-fields button {
-    margin-top: 6px;
-    padding: 12px;
+    padding: 10px;
     border-radius: 10px;
     border: none;
     background: #7e57c2;
@@ -128,9 +127,8 @@
 
 .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 0px;
     top: 50%;
-    transform: translateY(-50%);
 
     border: none;
     background: transparent;

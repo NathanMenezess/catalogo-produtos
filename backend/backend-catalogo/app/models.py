@@ -148,6 +148,9 @@ class Order(Base):
         index=True,
     )
 
+    customer_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    seller_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+
     total = Column(Float, nullable=False)
     status = Column(String, default="paid")  # paid | cancelled | refunded
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -164,7 +167,9 @@ class Order(Base):
 
     notes = Column(Text, nullable=True)
 
-    user = relationship("User", backref="orders")
+    user = relationship("User", foreign_keys=[user_id], backref="orders")
+    customer = relationship("User", foreign_keys=[customer_id])
+    seller = relationship("User", foreign_keys=[seller_id])
     items = relationship(
         "OrderItem",
         back_populates="order",
