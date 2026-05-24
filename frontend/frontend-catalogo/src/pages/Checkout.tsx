@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getCart } from "../services/cartApi";
+import { getMe } from "../services/authApi";
 import { createOrder } from "../services/ordersApi";
 import "./Checkout.css";
 
@@ -37,6 +38,27 @@ export function Checkout() {
   const [notes, setNotes] = useState("");
 
   const [placing, setPlacing] = useState(false);
+
+  useEffect(() => {
+    async function loadUserAddress() {
+      try {
+        const me = await getMe();
+
+        setName(me.name ?? "");
+        setPhone(me.phone ?? "");
+        setCep(me.cep ?? "");
+        setStreet(me.street ?? "");
+        setNumber(me.number ?? "");
+        setDistrict(me.district ?? "");
+        setCity(me.city ?? "");
+        setStateUF(me.state_uf ?? "");
+      } catch (error) {
+        console.log("Não foi possível carregar endereço do perfil", error);
+      }
+    }
+
+    loadUserAddress();
+  }, []);
 
   async function buscarCep(cepDigitado: string) {
     const cepLimpo = cepDigitado.replace(/\D/g, "");
