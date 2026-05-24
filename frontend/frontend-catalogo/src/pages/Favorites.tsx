@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProductCard } from "../components/productCard";
 import { getFavorites } from "../services/favoritesApi";
 import type { Product } from "../types/Product";
 import "./home.css";
+import "./Favorites.css";
 
 export function Favorites() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,6 +31,9 @@ export function Favorites() {
   return (
     <div className="container">
       <div className="page-head">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          ← Voltar
+        </button>
         <div>
           <h2>Meus favoritos</h2>
           <p className="subtitle">{products.length} produto(s) favoritado(s)</p>
