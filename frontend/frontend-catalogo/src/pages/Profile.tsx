@@ -34,7 +34,7 @@ export function Profile() {
     number: "",
     district: "",
     city: "",
-    state: "",
+    state_uf: "",
   });
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export function Profile() {
           number: me.number ?? "",
           district: me.district ?? "",
           city: me.city ?? "",
-          state: me.state ?? "",
+          state_uf: me.state_uf ?? "",
         });
       } finally {
         setLoading(false);
@@ -116,7 +116,7 @@ export function Profile() {
       street: data.logradouro || "",
       district: data.bairro || "",
       city: data.localidade || "",
-      state: data.uf || "",
+      state_uf: data.uf || "",
     }));
   }
 
@@ -269,8 +269,10 @@ export function Profile() {
               <label>
                 Estado
                 <input
-                  value={form.state}
-                  onChange={(e) => setForm({ ...form, state: e.target.value })}
+                  value={form.state_uf}
+                  onChange={(e) =>
+                    setForm({ ...form, state_uf: e.target.value })
+                  }
                 />
               </label>
             </div>

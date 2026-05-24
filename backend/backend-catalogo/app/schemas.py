@@ -64,7 +64,7 @@ class UserResponse(UserBase):
     number: Optional[str] = None
     district: Optional[str] = None
     city: Optional[str] = None
-    state: Optional[str] = None
+    state_uf: Optional[str] = None
 
     created_at: Optional[datetime] = None
 
@@ -80,8 +80,7 @@ class ProfileUpdate(BaseModel):
     number: Optional[str] = None
     district: Optional[str] = None
     city: Optional[str] = None
-    state: Optional[str] = None
-
+    state_uf: Optional[str] = None
 
 class ProfileStatsResponse(BaseModel):
     total_orders: int

@@ -53,7 +53,7 @@ class User(Base):
     number = Column(String, nullable=True)
     district = Column(String, nullable=True)
     city = Column(String, nullable=True)
-    state = Column(String, nullable=True)
+    state_uf = Column(String, nullable=True)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 

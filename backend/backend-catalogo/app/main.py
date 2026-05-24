@@ -155,8 +155,8 @@ def update_profile(
     if payload.city is not None:
         user.city = payload.city
 
-    if payload.state is not None:
-        user.state = payload.state
+    if payload.state_uf is not None:
+         user.state_uf = payload.state_uf
 
     db.commit()
     db.refresh(user)
