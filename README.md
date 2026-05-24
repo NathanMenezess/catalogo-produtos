@@ -35,6 +35,7 @@ Uma plataforma dinâmica que concede ao administrador o controle integral sobre 
   <a href="https://www.python.org/downloads/" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/python/3776AB" height="40" alt="Python" /></a>
   <a href="https://www.postgresql.org/download/" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/postgresql/4169E1" height="40" alt="PostgreSQL" /></a>
   <a href="https://supabase.com/dashboard" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/supabase/3ECF8E" height="40" alt="Supabase" /></a>
+ <a href="https://dashboard.render.com/" target="_blank" style="text-decoration: none;"> <img src="https://cdn.simpleicons.org/render/46E3B7" height="40" alt="Render" /></a>
   <a href="https://vercel.com/docs/cli" target="_blank" style="text-decoration: none;"><img src="https://cdn.simpleicons.org/vercel/000000" height="40" alt="Vercel CLI" /></a>
 </div>
 
