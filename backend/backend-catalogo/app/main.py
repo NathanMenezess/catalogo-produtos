@@ -134,34 +134,39 @@ def update_profile(
     db: Session = Depends(get_db),
     user: models.User = Depends(get_current_user),
 ):
-    if payload.name is not None:
-        user.name = payload.name
+    try:
+        if payload.name is not None:
+            user.name = payload.name
 
-    if payload.phone is not None:
-        user.phone = payload.phone
+        if payload.phone is not None:
+            user.phone = payload.phone
 
-    if payload.cep is not None:
-        user.cep = payload.cep
+        if payload.cep is not None:
+            user.cep = payload.cep
 
-    if payload.street is not None:
-        user.street = payload.street
+        if payload.street is not None:
+            user.street = payload.street
 
-    if payload.number is not None:
-        user.number = payload.number
+        if payload.number is not None:
+            user.number = payload.number
 
-    if payload.district is not None:
-        user.district = payload.district
+        if payload.district is not None:
+            user.district = payload.district
 
-    if payload.city is not None:
-        user.city = payload.city
+        if payload.city is not None:
+            user.city = payload.city
 
-    if payload.state_uf is not None:
-         user.state_uf = payload.state_uf
+        if payload.state_uf is not None:
+            user.state_uf = payload.state_uf
 
-    db.commit()
-    db.refresh(user)
-    return user
+        db.commit()
+        db.refresh(user)
+        return user
 
+    except Exception as e:
+        db.rollback()
+        print("ERRO AO ATUALIZAR PERFIL:", repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/profile/avatar", response_model=schemas.UserResponse)
 def update_profile_avatar(
