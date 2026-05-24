@@ -163,6 +163,14 @@ export function Checkout() {
         "success",
       );
 
+      window.dispatchEvent(
+        new CustomEvent("cart:changed", {
+          detail: { count: 0 },
+        }),
+      );
+
+      setCart({ items: [], total: 0 });
+
       navigate(`/payment/${order.id}`);
     } catch (e: any) {
       Swal.fire("Erro", e?.message || "Erro ao finalizar compra", "error");
