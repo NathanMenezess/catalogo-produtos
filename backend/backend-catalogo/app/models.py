@@ -42,8 +42,20 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
 
-    # roles: admin | vendedor | cliente
     role = Column(String, nullable=False, default="cliente")
+
+    phone = Column(String, nullable=True)
+    profile_image_url = Column(String, nullable=True)
+    profile_image_public_id = Column(String, nullable=True)
+
+    cep = Column(String, nullable=True)
+    street = Column(String, nullable=True)
+    number = Column(String, nullable=True)
+    district = Column(String, nullable=True)
+    city = Column(String, nullable=True)
+    state = Column(String, nullable=True)
+
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     cart = relationship("Cart", back_populates="user", uselist=False)
 

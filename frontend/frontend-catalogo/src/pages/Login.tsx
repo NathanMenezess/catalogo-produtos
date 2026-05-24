@@ -45,6 +45,7 @@ export function Login() {
               type="email"
               value={email}
               autoCapitalize="none"
+              required
               autoCorrect="off"
               spellCheck={false}
               onChange={(e) =>

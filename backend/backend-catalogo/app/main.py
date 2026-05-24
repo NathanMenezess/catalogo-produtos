@@ -128,7 +128,87 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 def me(user: models.User = Depends(get_current_user)):
     return user
 
+@app.patch("/profile", response_model=schemas.UserResponse)
+def update_profile(
+    payload: schemas.ProfileUpdate,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    if payload.name is not None:
+        user.name = payload.name
 
+    if payload.phone is not None:
+        user.phone = payload.phone
+
+    if payload.cep is not None:
+        user.cep = payload.cep
+
+    if payload.street is not None:
+        user.street = payload.street
+
+    if payload.number is not None:
+        user.number = payload.number
+
+    if payload.district is not None:
+        user.district = payload.district
+
+    if payload.city is not None:
+        user.city = payload.city
+
+    if payload.state is not None:
+        user.state = payload.state
+
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+@app.post("/profile/avatar", response_model=schemas.UserResponse)
+def update_profile_avatar(
+    image: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    if user.profile_image_public_id:
+        delete_image(user.profile_image_public_id)
+
+    image_url, image_public_id = upload_image(image)
+
+    user.profile_image_url = image_url
+    user.profile_image_public_id = image_public_id
+
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+@app.get("/profile/stats", response_model=schemas.ProfileStatsResponse)
+def get_profile_stats(
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    orders_query = db.query(models.Order).filter(models.Order.user_id == user.id)
+
+    orders = orders_query.all()
+
+    total_orders = len(orders)
+    paid_orders = len([o for o in orders if o.status == "paid"])
+    pending_orders = len([o for o in orders if o.status == "pending"])
+    total_spent = sum(float(o.total) for o in orders if o.status == "paid")
+
+    favorites_count = (
+        db.query(models.Favorite)
+        .filter(models.Favorite.user_id == user.id)
+        .count()
+    )
+
+    return {
+        "total_orders": total_orders,
+        "paid_orders": paid_orders,
+        "pending_orders": pending_orders,
+        "total_spent": total_spent,
+        "favorites_count": favorites_count,
+    }
 # =========================
 # Products
 # =========================

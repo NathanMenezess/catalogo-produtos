@@ -56,10 +56,39 @@ class UserCreate(UserBase):
 
 class UserResponse(UserBase):
     id: int
+    phone: Optional[str] = None
+    profile_image_url: Optional[str] = None
+
+    cep: Optional[str] = None
+    street: Optional[str] = None
+    number: Optional[str] = None
+    district: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+
+    created_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
 
+
+class ProfileUpdate(BaseModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    cep: Optional[str] = None
+    street: Optional[str] = None
+    number: Optional[str] = None
+    district: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+
+
+class ProfileStatsResponse(BaseModel):
+    total_orders: int
+    paid_orders: int
+    pending_orders: int
+    total_spent: float
+    favorites_count: int
 
 class UserListItem(BaseModel):
     id: int

@@ -15,6 +15,18 @@ export type MeResponse = {
   name: string;
   email: string;
   role: "cliente" | "admin" | "vendedor";
+
+  phone?: string | null;
+  profile_image_url?: string | null;
+
+  cep?: string | null;
+  street?: string | null;
+  number?: string | null;
+  district?: string | null;
+  city?: string | null;
+  state?: string | null;
+
+  created_at?: string | null;
 };
 
 export async function register(payload: RegisterPayload) {
@@ -83,6 +95,67 @@ export async function getMe() {
   if (!res.ok) {
     const data = await res.json().catch(() => null);
     throw new Error(data?.detail || "Erro ao buscar usuário");
+  }
+
+  return res.json();
+}
+
+export async function updateProfile(payload: Partial<MeResponse>) {
+  const token = getToken();
+  if (!token) throw new Error("Sem token");
+
+  const res = await fetch(`${API_URL}/profile`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    throw new Error(data?.detail || "Erro ao atualizar perfil");
+  }
+
+  return res.json();
+}
+
+export async function updateAvatar(file: File) {
+  const token = getToken();
+  if (!token) throw new Error("Sem token");
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  const res = await fetch(`${API_URL}/profile/avatar`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    throw new Error(data?.detail || "Erro ao atualizar foto");
+  }
+
+  return res.json();
+}
+
+export async function getProfileStats() {
+  const token = getToken();
+  if (!token) throw new Error("Sem token");
+
+  const res = await fetch(`${API_URL}/profile/stats`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Erro ao buscar estatísticas");
   }
 
   return res.json();
