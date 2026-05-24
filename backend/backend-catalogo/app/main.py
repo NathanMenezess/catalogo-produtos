@@ -132,48 +132,52 @@ def me(user: models.User = Depends(get_current_user)):
 def update_profile(
     payload: schemas.ProfileUpdate,
     db: Session = Depends(get_db),
-    user: models.User = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
-    try:
-        if payload.name is not None:
-            user.name = payload.name
+    user = db.query(models.User).filter(models.User.id == current_user.id).first()
 
-        if payload.phone is not None:
-            user.phone = payload.phone
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
-        if payload.cep is not None:
-            user.cep = payload.cep
+    if payload.name is not None:
+        user.name = payload.name
 
-        if payload.street is not None:
-            user.street = payload.street
+    if payload.phone is not None:
+        user.phone = payload.phone
 
-        if payload.number is not None:
-            user.number = payload.number
+    if payload.cep is not None:
+        user.cep = payload.cep
 
-        if payload.district is not None:
-            user.district = payload.district
+    if payload.street is not None:
+        user.street = payload.street
 
-        if payload.city is not None:
-            user.city = payload.city
+    if payload.number is not None:
+        user.number = payload.number
 
-        if payload.state_uf is not None:
-            user.state_uf = payload.state_uf
+    if payload.district is not None:
+        user.district = payload.district
 
-        db.commit()
-        db.refresh(user)
-        return user
+    if payload.city is not None:
+        user.city = payload.city
 
-    except Exception as e:
-        db.rollback()
-        print("ERRO AO ATUALIZAR PERFIL:", repr(e))
-        raise HTTPException(status_code=500, detail=str(e))
+    if payload.state_uf is not None:
+        user.state_uf = payload.state_uf
+
+    db.commit()
+    db.refresh(user)
+    return user
 
 @app.post("/profile/avatar", response_model=schemas.UserResponse)
 def update_profile_avatar(
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
-    user: models.User = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
+    user = db.query(models.User).filter(models.User.id == current_user.id).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
     if user.profile_image_public_id:
         delete_image(user.profile_image_public_id)
 
