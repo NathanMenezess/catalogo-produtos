@@ -29,8 +29,8 @@ export function Favorites() {
   }, []);
 
   return (
-    <div className="container">
-      <div className="page-head">
+    <div className="container-favorites">
+      <div className="page-head-favorites">
         <button className="back-button" onClick={() => navigate(-1)}>
           ← Voltar
         </button>

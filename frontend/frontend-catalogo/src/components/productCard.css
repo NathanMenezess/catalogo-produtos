@@ -164,6 +164,84 @@
     }
 }
 
+
+@media (max-width: 430px) {
+    .card {
+        padding: 10px;
+        border-radius: 12px;
+        gap: 8px;
+        width: 190px;
+    }
+
+    .card>img {
+        height: 110px;
+        border-radius: 10px;
+    }
+
+    .card-content h3 {
+        font-size: 14px;
+    }
+
+    .card-content p {
+        font-size: 12px;
+    }
+
+    .card-content strong {
+        font-size: 13px;
+    }
+
+    .actions button {
+        padding: 8px 10px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+
+    .addCart {
+        padding: 8px 10px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .card {
+        padding: 10px;
+        border-radius: 12px;
+        gap: 8px;
+        width: 175px;
+    }
+
+    .card>img {
+        height: 110px;
+        border-radius: 10px;
+    }
+
+    .card-content h3 {
+        font-size: 14px;
+    }
+
+    .card-content p {
+        font-size: 12px;
+    }
+
+    .card-content strong {
+        font-size: 13px;
+    }
+
+    .actions button {
+        padding: 8px 10px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+
+    .addCart {
+        padding: 8px 10px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+}
+
+
 .favorite {
     width: 100%;
     margin-top: 6px;
