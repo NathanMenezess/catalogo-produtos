@@ -61,7 +61,7 @@ graph TD
 * 🟢**Fase 1 (Concluída):** Planejamento, Design e Estrutura Base.
 * 🟢**Fase 2 (Concluída):** Desenvolvimento do fluxo operacional.
 * 🟢**Fase 3 (Concluída):** Gestão de Níveis de Acesso.
-* 🔴**PROVA (Em andamento):** Modelagem do Sistema (Diagrama de Classes, Caso de Uso e Vídeo Explicativo).
+* 🔴**PROVA (Em andamento):** Fluxo de compra e venda, Diagrama de Classe e Diagrama de Caso de Uso.
 
 ---
 
