@@ -56,13 +56,12 @@ graph TD
 ````
 ---
 
-### Cronograma e Status
+### Status
 
-* 🟢**Fase 1 (Concluída):** Planejamento, Design e Estrutura Base.
-* 🟢**Fase 2 (Concluída):** Desenvolvimento do fluxo operacional.
-* 🟢**Fase 3 (Concluída):** Gestão de Níveis de Acesso.
-* 🔴**PROVA (Em andamento):** Fluxo de compra e venda, Diagrama de Classe e Diagrama de Caso de Uso.
-
+* 🟢 **Entrega 1 (Concluída):** Cadastro de produtos.
+* 🟢 **Entrega 2 (Concluída):** Cadastro de usuários, login e criação de pedidos.
+* 🟢 **Entrega 3 (Concluída):** Criação de usuário administrador (Admin).
+* 🔴 **Entrega 4 (Em andamento):** Regras de negócio (Vendedor e Cliente) e ajustes de design (UX/UI).
 ---
 
 ## Equipe de Desenvolvimento
