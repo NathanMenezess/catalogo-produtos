@@ -38,7 +38,7 @@ type Order = {
   customer_email?: string | null;
   seller_name?: string | null;
   seller_email?: string | null;
-
+  origin?: string;
   items?: OrderItem[];
 };
 
@@ -202,7 +202,7 @@ export default function Orders() {
               <div
                 key={o.id}
                 className={`order-card ${
-                  order.origin === "vendedor" ? "seller-order" : "client-order"
+                  o.origin === "vendedor" ? "seller-order" : "client-order"
                 }`}
               >
                 <div className="order-cardTop">
