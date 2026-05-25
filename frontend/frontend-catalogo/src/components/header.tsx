@@ -127,6 +127,12 @@ export function Header() {
                 </button>
               )}
 
+              {isAdminOrVendedor && (
+                <button onClick={() => navigate("/dashboard")}>
+                  Dashboard
+                </button>
+              )}
+
               {isAdmin && (
                 <button
                   onClick={() => {
