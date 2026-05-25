@@ -163,6 +163,7 @@ class Order(Base):
         index=True,
     )
 
+    origin = Column(String, default="cliente", nullable=False)
     customer_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     seller_id = Column(Integer, ForeignKey("users.id"), nullable=True)
 
@@ -206,6 +207,8 @@ class Order(Base):
     @property
     def seller_email(self):
         return self.seller.email if self.seller else None
+    
+    
 
 
 class OrderItem(Base):

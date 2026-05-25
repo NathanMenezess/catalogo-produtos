@@ -657,6 +657,8 @@ def create_order(
         total=total,
         status="pending",
 
+        origin=current_user.role,
+
         shipping_name=payload.shipping.name,
         shipping_phone=payload.shipping.phone,
         shipping_cep=payload.shipping.cep,

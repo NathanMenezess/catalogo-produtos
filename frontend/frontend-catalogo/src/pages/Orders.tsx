@@ -199,7 +199,12 @@ export default function Orders() {
               : "";
 
             return (
-              <div key={o.id} className="order-card">
+              <div
+                key={o.id}
+                className={`order-card ${
+                  order.origin === "vendedor" ? "seller-order" : "client-order"
+                }`}
+              >
                 <div className="order-cardTop">
                   <div className="order-id">Pedido #{o.id}</div>
                   <span
@@ -287,6 +292,19 @@ export default function Orders() {
               <strong>Telefone:</strong>{" "}
               {selectedOrder.shipping_phone || "Não informado"}
             </p>
+
+            <p>
+              <strong>Origem:</strong>{" "}
+              {order.origin === "vendedor"
+                ? "Pedido criado pelo vendedor"
+                : "Pedido do cliente"}
+            </p>
+
+            {order.seller_name && (
+              <p>
+                <strong>Vendedor:</strong> {order.seller_name}
+              </p>
+            )}
 
             {selectedOrder.customer_name && (
               <p>

@@ -183,7 +183,7 @@ class OrderResponse(BaseModel):
 
     customer_id: Optional[int] = None
     seller_id: Optional[int] = None
-    
+    origin: Optional[str] = None
     customer_name: Optional[str] = None
     customer_email: Optional[str] = None
     seller_name: Optional[str] = None

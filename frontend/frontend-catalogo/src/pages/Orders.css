@@ -282,3 +282,12 @@
 .dangerVoltar:hover {
     background: #ffecec;
 }
+
+.order-card.client-order {
+    border-left: 6px solid #2563eb;
+}
+
+.order-card.seller-order {
+    border-left: 6px solid #7c3aed;
+    background: #faf5ff;
+}
