@@ -649,25 +649,25 @@ def create_order(
         total += float(it.quantity) * float(it.product.price)
 
     order = models.Order(
-        user_id=user.id,
-
-        customer_id=payload.customer_id,
-        seller_id=payload.seller_id,
-
-        total=total,
-        status="pending",
-
-        origin=current_user.role,
-
-        shipping_name=payload.shipping.name,
-        shipping_phone=payload.shipping.phone,
-        shipping_cep=payload.shipping.cep,
-        shipping_street=payload.shipping.street,
-        shipping_number=payload.shipping.number,
-        shipping_district=payload.shipping.district,
-        shipping_city=payload.shipping.city,
-        shipping_state=payload.shipping.state,
-        notes=payload.notes,
+      user_id=user.id,
+    
+      customer_id=payload.customer_id,
+      seller_id=user.id if user.role == "vendedor" else payload.seller_id,
+    
+      total=total,
+      status="pending",
+    
+      origin=user.role,
+    
+      shipping_name=payload.shipping.name,
+      shipping_phone=payload.shipping.phone,
+      shipping_cep=payload.shipping.cep,
+      shipping_street=payload.shipping.street,
+      shipping_number=payload.shipping.number,
+      shipping_district=payload.shipping.district,
+      shipping_city=payload.shipping.city,
+      shipping_state=payload.shipping.state,
+      notes=payload.notes,
     )
 
     db.add(order)
