@@ -25,6 +25,8 @@ class ProductResponse(BaseModel):
     image_url: str
     description: str | None = None
     category: Optional[str] = None
+    stock_quantity: int = 0
+    min_stock: int = 5
 
     class Config:
         from_attributes = True
