@@ -1,4 +1,21 @@
-
+# backend
 backend/backend-catalogo/venv/
-backend/backend-catalogo/database.db
-backend/backend-catalogo/env
+backend/backend-catalogo/.venv/
+backend/backend-catalogo/__pycache__/
+backend/backend-catalogo/*.db
+
+# frontend
+frontend/frontend-catalogo/node_modules/
+frontend/frontend-catalogo/dist/
+
+# env
+.env
+.env.*
+
+# vscode
+.vscode/
+
+# cache
+.cache/
+
+node_modules/
