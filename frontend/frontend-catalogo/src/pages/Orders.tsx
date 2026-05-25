@@ -295,14 +295,14 @@ export default function Orders() {
 
             <p>
               <strong>Origem:</strong>{" "}
-              {order.origin === "vendedor"
+              {selectedOrder.origin === "vendedor"
                 ? "Pedido criado pelo vendedor"
                 : "Pedido do cliente"}
             </p>
 
-            {order.seller_name && (
+            {selectedOrder.seller_name && (
               <p>
-                <strong>Vendedor:</strong> {order.seller_name}
+                <strong>Vendedor:</strong> {selectedOrder.seller_name}
               </p>
             )}
 
