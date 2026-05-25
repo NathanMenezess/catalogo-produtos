@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getProducts } from "../services/api";
 import { getMyOrders } from "../services/ordersApi";
 import type { Product } from "../types/Product";
+import { StockNotifications } from "../components/StockNotifications";
 import "./Dashboard.css";
 
 import {
@@ -154,6 +155,7 @@ export function Dashboard() {
   if (loading) {
     return (
       <main className="dashboard-page">
+        <StockNotifications />
         <div className="dashboard-loading">Carregando dashboard...</div>
       </main>
     );
@@ -296,7 +298,7 @@ export function Dashboard() {
         </article>
       </section>
 
-      <section className="dashboard-panel">
+      <section className="dashboard-panel" style={{ marginBottom: "1%" }}>
         <div className="panel-header">
           <div>
             <h3>Faturamento dos últimos pedidos</h3>

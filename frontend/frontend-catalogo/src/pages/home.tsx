@@ -6,6 +6,7 @@ import { ProductCard } from "../components/productCard";
 import type { Product } from "../types/Product";
 import * as Service from "../services/api";
 import { getRole } from "../services/authStorage";
+import { StockNotifications } from "../components/StockNotifications";
 
 export function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -85,6 +86,7 @@ export function Home() {
     <div className="container">
       <div className="page-head">
         <div>
+          <StockNotifications />
           <h2>Produtos</h2>
           <p className="subtitle">
             {filteredProducts.length} produto(s) encontrado(s)
