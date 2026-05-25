@@ -297,7 +297,7 @@ export function Profile() {
             <button onClick={() => navigate("/home")}>Ver produtos</button>
 
             {(user.role === "admin" || user.role === "vendedor") && (
-              <button onClick={() => navigate("/admin/products")}>
+              <button onClick={() => navigate("/dashboard")}>
                 Área administrativa
               </button>
             )}
