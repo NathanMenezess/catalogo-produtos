@@ -261,3 +261,21 @@
         font-size: 24px;
     }
 }
+
+.dashboard-charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.chart-container {
+    width: 100%;
+    height: 320px;
+}
+
+@media (max-width: 1000px) {
+    .dashboard-charts {
+        grid-template-columns: 1fr;
+    }
+}

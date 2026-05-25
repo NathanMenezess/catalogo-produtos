@@ -4,6 +4,18 @@ import { getMyOrders } from "../services/ordersApi";
 import type { Product } from "../types/Product";
 import "./Dashboard.css";
 
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+
 type OrderItem = {
   title?: string;
   product_id?: number;
@@ -113,6 +125,32 @@ export function Dashboard() {
     return "Normal";
   }
 
+  const ordersChartData = [
+    {
+      name: "Pendentes",
+      value: stats.pendingOrders,
+    },
+    {
+      name: "Pagos",
+      value: stats.paidOrders,
+    },
+  ];
+
+  const stockChartData = products.map((product) => ({
+    name: product.title,
+    estoque: Number(product.stock_quantity ?? 0),
+  }));
+
+  const revenueChartData = orders
+    .filter((order) => order.status === "paid")
+    .slice(0, 7)
+    .map((order) => ({
+      name: `#${order.id}`,
+      total: Number(order.total || 0),
+    }));
+
+  const COLORS = ["#f59e0b", "#16a34a"];
+
   if (loading) {
     return (
       <main className="dashboard-page">
@@ -204,6 +242,79 @@ export function Dashboard() {
             </div>
           </div>
         </article>
+      </section>
+
+      <section className="dashboard-charts">
+        <article className="dashboard-panel">
+          <div className="panel-header">
+            <div>
+              <h3>Pedidos por status</h3>
+              <p>Distribuição dos pedidos registrados</p>
+            </div>
+          </div>
+
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={ordersChartData}
+                  dataKey="value"
+                  nameKey="name"
+                  outerRadius={100}
+                  label
+                >
+                  {ordersChartData.map((_, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </article>
+
+        <article className="dashboard-panel">
+          <div className="panel-header">
+            <div>
+              <h3>Estoque por produto</h3>
+              <p>Quantidade disponível no estoque</p>
+            </div>
+          </div>
+
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={stockChartData}>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+
+                <Bar dataKey="estoque" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </article>
+      </section>
+
+      <section className="dashboard-panel">
+        <div className="panel-header">
+          <div>
+            <h3>Faturamento dos últimos pedidos</h3>
+            <p>Pedidos pagos mais recentes</p>
+          </div>
+        </div>
+
+        <div className="chart-container">
+          <ResponsiveContainer width="100%" height={320}>
+            <BarChart data={revenueChartData}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+
+              <Bar dataKey="total" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </section>
 
       <section className="dashboard-panel">
