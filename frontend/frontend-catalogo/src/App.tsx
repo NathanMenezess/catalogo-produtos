@@ -16,6 +16,7 @@ import { Favorites } from "./pages/Favorites";
 import { ProductEdit } from "./pages/ProductEdit";
 import { ProductCreate } from "./pages/ProductCreate";
 import { Dashboard } from "./pages/Dashboard";
+import { PurchaseOrders } from "./pages/PurchaseOrders";
 
 function DefaultAfterLogin() {
   const role = getRole();
@@ -186,6 +187,18 @@ export default function App() {
             <>
               <Header />
               <Dashboard />
+            </>
+          </RoleRoute>
+        }
+      />
+
+      <Route
+        path="/purchase-orders"
+        element={
+          <RoleRoute allow={["admin", "compras"]}>
+            <>
+              <Header />
+              <PurchaseOrders />
             </>
           </RoleRoute>
         }

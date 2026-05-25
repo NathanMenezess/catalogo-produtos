@@ -14,6 +14,7 @@ export function Header() {
   const isCliente = role === "cliente";
   const isAdmin = role === "admin";
   const isVendedor = role === "vendedor";
+  const isCompras = role === "compras";
 
   const canBuy = isCliente || isAdmin || isVendedor;
   const isAdminOrVendedor = role === "admin" || role === "vendedor";
@@ -130,6 +131,17 @@ export function Header() {
               {isAdminOrVendedor && (
                 <button onClick={() => navigate("/dashboard")}>
                   Dashboard
+                </button>
+              )}
+
+              {(isAdmin || isCompras) && (
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    navigate("/purchase-orders");
+                  }}
+                >
+                  Compras
                 </button>
               )}
 

@@ -3,7 +3,7 @@ import { getRole, isLoggedIn } from "../services/authStorage";
 import React from "react";
 
 type Props = {
-  allow: Array<"cliente" | "admin" | "vendedor">;
+  allow: Array<"cliente" | "admin" | "vendedor" | "compras">;
   children: React.ReactNode;
 };
 
