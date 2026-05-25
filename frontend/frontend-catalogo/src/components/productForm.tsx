@@ -30,6 +30,8 @@ export function ProductForm({
   const [preview, setPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [description, setDescription] = useState("");
+  const [stockQuantity, setStockQuantity] = useState("0");
+  const [minStock, setMinStock] = useState("5");
 
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [category, setCategory] = useState("");
@@ -42,6 +44,8 @@ export function ProductForm({
       setPreview(editingProduct.image_url);
       setDescription(editingProduct.description || "");
       setCategory(editingProduct.category || "");
+      setStockQuantity(String(editingProduct.stock_quantity ?? 0));
+      setMinStock(String(editingProduct.min_stock ?? 5));
       setImage(null);
     } else {
       setTitle("");
@@ -49,6 +53,8 @@ export function ProductForm({
       setPrice("");
       setDescription("");
       setCategory("");
+      setStockQuantity("0");
+      setMinStock("5");
       setImage(null);
       setPreview(null);
 
@@ -79,6 +85,8 @@ export function ProductForm({
     if (image) {
       formData.append("image", image);
     }
+    formData.append("stock_quantity", stockQuantity);
+    formData.append("min_stock", minStock);
 
     try {
       if (editingProduct) {
@@ -149,6 +157,24 @@ export function ProductForm({
           }}
           min="0"
           step="0.01"
+          required
+        />
+
+        <input
+          type="number"
+          placeholder="Quantidade em estoque"
+          value={stockQuantity}
+          onChange={(e) => setStockQuantity(e.target.value)}
+          min="0"
+          required
+        />
+
+        <input
+          type="number"
+          placeholder="Estoque mínimo para alerta"
+          value={minStock}
+          onChange={(e) => setMinStock(e.target.value)}
+          min="0"
           required
         />
 

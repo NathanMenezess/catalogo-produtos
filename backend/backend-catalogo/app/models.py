@@ -30,6 +30,9 @@ class Product(Base):
     description = Column(Text, nullable=True)
     category = Column(String, nullable=True)
 
+    stock_quantity = Column(Integer, default=0, nullable=False)
+    min_stock = Column(Integer, default=5, nullable=False)
+
 
 # =========================
 # User

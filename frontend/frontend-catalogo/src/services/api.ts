@@ -34,6 +34,8 @@ export async function getProducts(): Promise<Product[]> {
     image_url: item.image_url,
     description: item.description,
     category: item.category,
+    stock_quantity: item.stock_quantity,
+    min_stock: item.min_stock,
   }));
 }
 

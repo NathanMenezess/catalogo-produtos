@@ -228,6 +228,8 @@ def create_product(
     price: float = Form(...),
     description: str = Form(...),
     category: str = Form(None),
+    stock_quantity: int = Form(0),
+    min_stock: int = Form(5),
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
     _user: models.User = Depends(require_roles("admin", "vendedor")),
@@ -242,6 +244,8 @@ def create_product(
         image_public_id=image_public_id,
         description=description,
         category=category,
+        stock_quantity=stock_quantity,
+        min_stock=min_stock,
     )
     db.add(product)
     db.commit()
@@ -288,6 +292,8 @@ def update_product(
     price: float = Form(...),
     description: str = Form(...),
     category: str = Form(None),
+    stock_quantity: int = Form(0),
+    min_stock: int = Form(5),
     image: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     _user: models.User = Depends(require_roles("admin", "vendedor")),
@@ -299,6 +305,8 @@ def update_product(
     product.title = title
     product.subtitle = subtitle
     product.price = price
+    product.stock_quantity = stock_quantity
+    product.min_stock = min_stock
     product.description = description
     product.category = category
 
@@ -705,6 +713,18 @@ def simulate_payment(
 
     if order.status == "paid":
         return order
+
+    for item in order.items:
+        product = db.query(models.Product).filter(models.Product.id == item.product_id).first()
+    
+        if product:
+            if product.stock_quantity < item.quantity:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Estoque insuficiente para {product.title}"
+                )
+    
+            product.stock_quantity -= item.quantity
 
     order.status = "paid"
 
