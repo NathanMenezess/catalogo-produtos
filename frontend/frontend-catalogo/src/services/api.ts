@@ -1,7 +1,7 @@
 import type { Product } from "../types/Product";
 import { getToken } from "./authStorage";
 
-const API_URL = import.meta.env.VITE_API_URL;
+export const API_URL = import.meta.env.VITE_API_URL;
 
 function authHeader(): Record<string, string> {
   const token = getToken();
