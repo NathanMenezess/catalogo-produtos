@@ -227,3 +227,68 @@ class OrderItem(Base):
     unit_price = Column(Float, nullable=False, default=0)
 
     order = relationship("Order", back_populates="items")
+
+
+
+class Supplier(Base):
+    __tablename__ = "suppliers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    email = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
+    cnpj = Column(String, nullable=True)
+    notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    purchase_orders = relationship("PurchaseOrder", back_populates="supplier")
+
+
+class PurchaseOrder(Base):
+    __tablename__ = "purchase_orders"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=False)
+    buyer_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    status = Column(String, default="pending", nullable=False)
+    total = Column(Float, default=0, nullable=False)
+    notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    supplier = relationship("Supplier", back_populates="purchase_orders")
+    buyer = relationship("User")
+    items = relationship(
+        "PurchaseOrderItem",
+        back_populates="purchase_order",
+        cascade="all, delete-orphan"
+    )
+
+    @property
+    def supplier_name(self):
+        return self.supplier.name if self.supplier else None
+
+    @property
+    def buyer_name(self):
+        return self.buyer.name if self.buyer else None
+
+
+class PurchaseOrderItem(Base):
+    __tablename__ = "purchase_order_items"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    purchase_order_id = Column(
+        Integer,
+        ForeignKey("purchase_orders.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
+    product_title = Column(String, nullable=False)
+    quantity = Column(Integer, nullable=False)
+    unit_cost = Column(Float, nullable=False)
+
+    purchase_order = relationship("PurchaseOrder", back_populates="items")
+    product = relationship("Product")

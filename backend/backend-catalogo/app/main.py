@@ -856,3 +856,125 @@ def admin_delete_user(
     db.execute(delete(models.User).where(models.User.id == user_id))
     db.commit()
     return
+
+
+@app.post("/suppliers", response_model=schemas.SupplierResponse)
+def create_supplier(
+    payload: schemas.SupplierCreate,
+    db: Session = Depends(get_db),
+    _user: models.User = Depends(require_roles("admin", "compras")),
+):
+    supplier = models.Supplier(**payload.model_dump())
+
+    db.add(supplier)
+    db.commit()
+    db.refresh(supplier)
+
+    return supplier
+
+
+@app.get("/suppliers", response_model=list[schemas.SupplierResponse])
+def list_suppliers(
+    db: Session = Depends(get_db),
+    _user: models.User = Depends(require_roles("admin", "compras", "vendedor")),
+):
+    return db.query(models.Supplier).order_by(models.Supplier.name.asc()).all()
+
+
+@app.post("/purchase-orders", response_model=schemas.PurchaseOrderResponse)
+def create_purchase_order(
+    payload: schemas.PurchaseOrderCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(require_roles("admin", "compras")),
+):
+    supplier = db.query(models.Supplier).filter(
+        models.Supplier.id == payload.supplier_id
+    ).first()
+
+    if not supplier:
+        raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
+
+    purchase_order = models.PurchaseOrder(
+        supplier_id=payload.supplier_id,
+        buyer_id=current_user.id,
+        status="pending",
+        notes=payload.notes,
+        total=0,
+    )
+
+    db.add(purchase_order)
+    db.flush()
+
+    total = 0
+
+    for item in payload.items:
+        product = db.query(models.Product).filter(
+            models.Product.id == item.product_id
+        ).first()
+
+        if not product:
+            raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+        item_total = item.quantity * item.unit_cost
+        total += item_total
+
+        purchase_item = models.PurchaseOrderItem(
+            purchase_order_id=purchase_order.id,
+            product_id=product.id,
+            product_title=product.title,
+            quantity=item.quantity,
+            unit_cost=item.unit_cost,
+        )
+
+        db.add(purchase_item)
+
+    purchase_order.total = total
+
+    db.commit()
+    db.refresh(purchase_order)
+
+    return purchase_order
+
+
+@app.get("/purchase-orders", response_model=list[schemas.PurchaseOrderResponse])
+def list_purchase_orders(
+    db: Session = Depends(get_db),
+    _user: models.User = Depends(require_roles("admin", "compras", "vendedor")),
+):
+    return (
+        db.query(models.PurchaseOrder)
+        .order_by(models.PurchaseOrder.created_at.desc())
+        .all()
+    )
+
+
+@app.patch("/purchase-orders/{purchase_order_id}/receive", response_model=schemas.PurchaseOrderResponse)
+def receive_purchase_order(
+    purchase_order_id: int,
+    db: Session = Depends(get_db),
+    _user: models.User = Depends(require_roles("admin", "compras")),
+):
+    purchase_order = db.query(models.PurchaseOrder).filter(
+        models.PurchaseOrder.id == purchase_order_id
+    ).first()
+
+    if not purchase_order:
+        raise HTTPException(status_code=404, detail="Ordem de compra não encontrada")
+
+    if purchase_order.status == "received":
+        return purchase_order
+
+    for item in purchase_order.items:
+        product = db.query(models.Product).filter(
+            models.Product.id == item.product_id
+        ).first()
+
+        if product:
+            product.stock_quantity = int(product.stock_quantity or 0) + item.quantity
+
+    purchase_order.status = "received"
+
+    db.commit()
+    db.refresh(purchase_order)
+
+    return purchase_order

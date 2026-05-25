@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Literal, Optional
 
 
-RoleType = Literal["cliente", "vendedor", "admin"]
+RoleType = Literal["cliente", "vendedor", "admin", "compras"]
 
 class ProductBase(BaseModel):
     title: str
@@ -25,8 +25,6 @@ class ProductResponse(BaseModel):
     image_url: str
     description: str | None = None
     category: Optional[str] = None
-    stock_quantity: int = 0
-    min_stock: int = 5
 
     class Config:
         from_attributes = True
@@ -211,3 +209,58 @@ class CheckoutPayload(BaseModel):
     notes: Optional[str] = None
     customer_id: Optional[int] = None
     seller_id: Optional[int] = None
+
+
+class SupplierCreate(BaseModel):
+    name: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    cnpj: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class SupplierResponse(SupplierCreate):
+    id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class PurchaseOrderItemCreate(BaseModel):
+    product_id: int
+    quantity: int
+    unit_cost: float
+
+
+class PurchaseOrderCreate(BaseModel):
+    supplier_id: int
+    notes: Optional[str] = None
+    items: List[PurchaseOrderItemCreate]
+
+
+class PurchaseOrderItemResponse(BaseModel):
+    id: int
+    product_id: int
+    product_title: str
+    quantity: int
+    unit_cost: float
+
+    class Config:
+        from_attributes = True
+
+
+class PurchaseOrderResponse(BaseModel):
+    id: int
+    supplier_id: int
+    supplier_name: Optional[str] = None
+    buyer_id: int
+    buyer_name: Optional[str] = None
+    status: str
+    total: float
+    notes: Optional[str] = None
+    created_at: datetime
+    items: List[PurchaseOrderItemResponse]
+
+    class Config:
+        from_attributes = True
